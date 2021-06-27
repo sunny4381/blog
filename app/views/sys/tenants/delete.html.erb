@@ -1,0 +1,11 @@
+<%= form_with model: model, method: :delete, scope: :model, class: "model-form", data: { id: model.id } do |form| %>
+  <%= render 'layouts/error_messages', model: model %>
+
+  <div class="mb-3">
+    <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", readonly: true %>
+  </div>
+
+  <%= form.submit "削除", class: "btn btn-danger" %>
+  <%= link_to "キャンセル", { action: :show }, { class: "btn btn-outline-secondary" } %>
+<% end %>

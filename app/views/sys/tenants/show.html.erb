@@ -1,0 +1,34 @@
+<%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
+<%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
+
+<div class="mb-3">
+  <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
+  <div class="form-control-plaintext border rounded">
+    <%= model.name %>
+  </div>
+</div>
+
+<% if model.memo.present? %>
+  <div class="mb-3">
+    <%= label_tag :memo, model_class.human_attribute_name(:memo), class: "form-label" %>
+    <div class="form-control-plaintext border rounded">
+      <%= br model.memo %>
+    </div>
+  </div>
+<% end %>
+
+<% if model.enabled_at || model.disabled_at %>
+  <div class="mb-3">
+    <%= label_tag :enabled_at, model_class.human_attribute_name(:enabled_at), class: "form-label" %>
+    <div class="form-control-plaintext border rounded">
+      <%=
+        [].tap do |array|
+          array << I18n.l(model.enabled_at.to_date) if model.enabled_at
+          array << I18n.l(model.disabled_at.to_date) if model.disabled_at
+        end.join(t("wave_dash"))
+      %>
+    </div>
+  </div>
+<% end %>
+
+<%= link_to "戻る", { action: :index }, { class: "btn btn-outline-secondary" } %>
