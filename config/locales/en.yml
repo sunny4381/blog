@@ -160,6 +160,8 @@ en:
       present: must be blank
       required: must exist
       taken: has already been taken
+      malformed_host: is malformed host
+      malformed_path: is malformed path
       too_long:
         one: is too long (maximum is 1 character)
         other: is too long (maximum is %{count} characters)

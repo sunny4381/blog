@@ -1,9 +1,9 @@
-class Sys::TenantsController < ApplicationController
+class Sys::VirtualHostsController < ApplicationController
   cattr_accessor :model_class
 
-  self.model_class = Sys::Tenant
+  self.model_class = Sys::VirtualHost
 
-  helper_method :model_class, :models, :model
+  helper_method :model_class, :current_tenant, :models, :model
 
   def index
   end
@@ -16,10 +16,10 @@ class Sys::TenantsController < ApplicationController
   end
 
   def create
-    @model = model_class.new params.require(:model).permit(:name, :memo, :enabled_at, :disabled_at)
-    @model.virtual_hosts.build params.require(:model).require(:virtual_hosts).permit(:host, :path)
+    @model = model_class.new params.require(:model).permit(:host, :path)
+    @model.parent = current_tenant
     if @model.save
-      redirect_to url_for(action: :show, id: @model), notice: "作成しました。"
+      redirect_to url_for(action: :index), notice: "作成しました。"
     else
       render :new
     end
@@ -29,7 +29,7 @@ class Sys::TenantsController < ApplicationController
   end
 
   def update
-    model.attributes = params.require(:model).permit(:name, :memo, :enabled_at, :disabled_at)
+    model.attributes = params.require(:model).permit(:host, :path)
     if @model.save
       redirect_to url_for(action: :show), notice: "保存しました。"
     else
@@ -50,8 +50,12 @@ class Sys::TenantsController < ApplicationController
 
   private
 
+  def current_tenant
+    @current_tenant ||= Sys::Tenant.find(params[:tenant_id])
+  end
+
   def models
-    @models ||= model_class.all.includes(:virtual_hosts)
+    @models ||= model_class.all.where(parent: current_tenant)
   end
 
   def model

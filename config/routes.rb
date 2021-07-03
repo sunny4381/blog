@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   namespace :sys do
     resources :tenants do
       get :delete, on: :member
+
+      resources :virtual_hosts do
+        get :delete, on: :member
+      end
     end
   end
 end

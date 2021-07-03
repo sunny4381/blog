@@ -1,34 +1,62 @@
 <%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
 <%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
 
-<div class="mb-3">
-  <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
-  <div class="form-control-plaintext border rounded">
-    <%= model.name %>
-  </div>
-</div>
+<fieldset id="sophon-basic">
+  <legend>基本情報</legend>
 
-<% if model.memo.present? %>
   <div class="mb-3">
-    <%= label_tag :memo, model_class.human_attribute_name(:memo), class: "form-label" %>
+    <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
     <div class="form-control-plaintext border rounded">
-      <%= br model.memo %>
+      <%= model.name %>
     </div>
   </div>
-<% end %>
 
-<% if model.enabled_at || model.disabled_at %>
-  <div class="mb-3">
-    <%= label_tag :enabled_at, model_class.human_attribute_name(:enabled_at), class: "form-label" %>
-    <div class="form-control-plaintext border rounded">
-      <%=
-        [].tap do |array|
-          array << I18n.l(model.enabled_at.to_date) if model.enabled_at
-          array << I18n.l(model.disabled_at.to_date) if model.disabled_at
-        end.join(t("wave_dash"))
-      %>
+  <% if model.memo.present? %>
+    <div class="mb-3">
+      <%= label_tag :memo, model_class.human_attribute_name(:memo), class: "form-label" %>
+      <div class="form-control-plaintext border rounded">
+        <%= sophon_br model.memo %>
+      </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+
+  <% if model.enabled_at || model.disabled_at %>
+    <div class="mb-3">
+      <%= label_tag :enabled_at, model_class.human_attribute_name(:enabled_at), class: "form-label" %>
+      <div class="form-control-plaintext border rounded">
+        <%=
+          [].tap do |array|
+            array << I18n.l(model.enabled_at.to_date) if model.enabled_at
+            array << I18n.l(model.disabled_at.to_date) if model.disabled_at
+          end.join(t("wave_dash"))
+        %>
+      </div>
+    </div>
+  <% end %>
+</fieldset>
+
+<fieldset id="sophon-virtual-host">
+  <legend>仮想ホスト</legend>
+  <%= link_to "仮想ホストの管理", sys_tenant_virtual_hosts_path(tenant_id: model) %>
+
+  <% if model.virtual_hosts.present? %>
+    <table>
+      <thead>
+      <tr>
+        <th><%= Sys::VirtualHost.human_attribute_name :host %></th>
+        <th><%= Sys::VirtualHost.human_attribute_name :path %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% model.virtual_hosts.each do |virtual_host| %>
+      <tr>
+        <td><%= virtual_host.host %></td>
+        <td><%= virtual_host.path %></td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</fieldset>
 
 <%= link_to "戻る", { action: :index }, { class: "btn btn-outline-secondary" } %>

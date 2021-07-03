@@ -14,6 +14,9 @@ ja:
         memo: 備考
         enabled_at: 有効日
         disabled_at: 無効日
+      sys/virtual_host:
+        host: ホスト
+        path: パス
 
   date:
     abbr_day_names:
@@ -141,6 +144,8 @@ ja:
       too_long: は%{count}文字以内で入力してください
       too_short: は%{count}文字以上で入力してください
       wrong_length: は%{count}文字で入力してください
+      malformed_host: はホストとして不正です
+      malformed_path: はパスとして不正です
     template:
       body: 次の項目を確認してください
       header:

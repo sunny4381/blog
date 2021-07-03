@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def blog_date(time_like)
+  def sophon_date(time_like)
     return if time_like.blank?
 
     date = time_like.in_time_zone.to_date
@@ -9,7 +9,7 @@ module ApplicationHelper
     content_tag(:datetime, display_time, datetime: iso, title: display_time)
   end
 
-  def br(*args)
+  def sophon_br(*args)
     args.map! do |arg|
       if arg.is_a?(String)
         arg.split(/\R/)

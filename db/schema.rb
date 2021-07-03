@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_21_063904) do
+ActiveRecord::Schema.define(version: 2021_07_03_051149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -20,11 +20,22 @@ ActiveRecord::Schema.define(version: 2021_06_21_063904) do
   create_table "sys_tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.text "memo"
-    t.datetime "enabled_at"
-    t.datetime "disabled_at"
+    t.datetime "enabled_at", precision: 6
+    t.datetime "disabled_at", precision: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_sys_tenants_on_name", unique: true
+  end
+
+  create_table "sys_virtual_hosts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "parent_type"
+    t.uuid "parent_id"
+    t.string "host", null: false
+    t.string "path", null: false
+    t.integer "depth"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["parent_type", "parent_id"], name: "index_sys_virtual_hosts_on_parent"
   end
 
 end
