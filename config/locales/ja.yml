@@ -14,8 +14,8 @@ ja:
         memo: 備考
         enabled_at: 有効日
         disabled_at: 無効日
+        brand_logo: ブランドロゴ
         brand_name: ブランド名
-        brand_log: ブランドロゴ
       sys/virtual_host:
         host: ホスト
         path: パス
