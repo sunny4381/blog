@@ -1,8 +1,8 @@
 <%= form_with model: model, scope: :model, class: "model-form", data: { id: model.id } do |form| %>
   <%= render 'layouts/error_messages', model: model %>
 
-  <fieldset id="sophon-basic">
-    <legend>基本情報</legend>
+  <article id="sophon-basic">
+    <header><h2>基本情報</h2></header>
     <div class="mb-3">
       <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
       <%= form.text_field :name, class: "form-control" %>
@@ -23,10 +23,10 @@
         <%= form.date_field :disabled_at, class: "form-control" %>
       </div>
     </div>
-  </fieldset>
+  </article>
 
-  <fieldset id="sophon-basic">
-    <legend>ブランド</legend>
+  <article id="sophon-basic">
+    <header><h2>ブランド</h2></header>
     <div class="mb-3">
       <%= form.label :brand_logo, model_class.human_attribute_name(:brand_logo), class: "form-label" %>
       <%= form.file_field :brand_logo, class: "form-control" %>
@@ -43,8 +43,10 @@
       <%= form.label :brand_name, model_class.human_attribute_name(:memo), class: "form-label" %>
       <%= form.text_field :brand_name, class: "form-control" %>
     </div>
-  </fieldset>
+  </article>
 
-  <%= form.submit "保存", class: "btn btn-primary" %>
-  <%= link_to "キャンセル", { action: :show }, { class: "btn btn-outline-secondary" } %>
+  <section>
+    <%= form.submit "保存", class: "btn btn-primary" %>
+    <%= link_to "キャンセル", { action: :show }, { class: "btn btn-outline-secondary" } %>
+  </section>
 <% end %>

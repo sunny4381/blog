@@ -1,8 +1,8 @@
 <%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
 <%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
 
-<fieldset id="sophon-basic">
-  <legend>基本情報</legend>
+<article id="sophon-basic">
+  <header><h2>基本情報</h2></header>
 
   <div class="mb-3">
     <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
@@ -33,10 +33,10 @@
       </div>
     </div>
   <% end %>
-</fieldset>
+</article>
 
-<fieldset id="sophon-basic">
-  <legend>ブランド</legend>
+<article id="sophon-basic">
+  <header><h2>ブランド</h2></header>
 
   <% if model.brand_logo.present? %>
     <div class="mb-3">
@@ -57,10 +57,10 @@
       <%= model.brand_name %>
     </div>
   </div>
-</fieldset>
+</article>
 
-<fieldset id="sophon-virtual-host">
-  <legend>仮想ホスト</legend>
+<article id="sophon-virtual-host">
+  <header><h2>仮想ホスト</h2></header>
   <%= link_to "仮想ホストの管理", sys_tenant_virtual_hosts_path(tenant_id: model) %>
 
   <% if model.virtual_hosts.present? %>
@@ -81,6 +81,8 @@
       </tbody>
     </table>
   <% end %>
-</fieldset>
+</article>
 
-<%= link_to "戻る", { action: :index }, { class: "btn btn-outline-secondary" } %>
+<section>
+  <%= link_to "戻る", { action: :index }, { class: "btn btn-outline-secondary" } %>
+</section>

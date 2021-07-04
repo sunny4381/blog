@@ -1,18 +1,24 @@
 <%= form_with model: model, scope: :model, url: url_for(action: :create), class: "model-form", data: { id: model.id } do |form| %>
   <%= render 'layouts/error_messages', model: model %>
 
-  <div class="mb-3">
-    <%= form.label :host, model_class.human_attribute_name(:host), class: "form-label" %>
-    <%= form.text_field :host, class: "form-control" %>
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
+  <article id="sophon-basic">
+    <header><h2>基本情報</h2></header>
 
-  <div class="mb-3">
-    <%= form.label :path, model_class.human_attribute_name(:path), class: "form-label" %>
-    <%= form.text_field :path, class: "form-control" %>
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
+    <div class="mb-3">
+      <%= form.label :host, model_class.human_attribute_name(:host), class: "form-label" %>
+      <%= form.text_field :host, class: "form-control" %>
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
 
-  <%= form.submit "作成", class: "btn btn-primary" %>
-  <%= link_to "キャンセル", { action: :index }, { class: "btn btn-outline-secondary" } %>
+    <div class="mb-3">
+      <%= form.label :path, model_class.human_attribute_name(:path), class: "form-label" %>
+      <%= form.text_field :path, class: "form-control" %>
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+  </article>
+
+  <section>
+    <%= form.submit "作成", class: "btn btn-primary" %>
+    <%= link_to "キャンセル", { action: :index }, { class: "btn btn-outline-secondary" } %>
+  </section>
 <% end %>
