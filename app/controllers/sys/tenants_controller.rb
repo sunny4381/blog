@@ -51,7 +51,7 @@ class Sys::TenantsController < ApplicationController
   private
 
   def models
-    @models ||= model_class.all.includes(:virtual_hosts)
+    @models ||= model_class.all.includes(:virtual_hosts).with_attached_brand_logo
   end
 
   def model
