@@ -25,6 +25,19 @@
     </div>
   </fieldset>
 
+  <fieldset id="sophon-basic">
+    <legend>ブランド</legend>
+    <div class="mb-3">
+      <%= form.label :brand_logo, model_class.human_attribute_name(:brand_logo), class: "form-label" %>
+      <%= form.file_field :brand_logo, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :brand_name, model_class.human_attribute_name(:memo), class: "form-label" %>
+      <%= form.text_field :brand_name, class: "form-control" %>
+    </div>
+  </fieldset>
+
   <fieldset id="sophon-virtual-host">
     <legend>仮想ホスト</legend>
 

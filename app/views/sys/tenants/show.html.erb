@@ -35,6 +35,30 @@
   <% end %>
 </fieldset>
 
+<fieldset id="sophon-basic">
+  <legend>ブランド</legend>
+
+  <% if model.brand_logo.present? %>
+    <div class="mb-3">
+      <%= label_tag :brand_logo, model_class.human_attribute_name(:brand_logo), class: "form-label" %>
+      <div class="form-control-plaintext border rounded">
+        <% if model.brand_logo.representable? %>
+          <%= image_tag(url_for(model.brand_logo.representation(resize_to_limit: [ 100, 100 ]))) %>
+        <% else %>
+          <%= link_to "Download", rails_blob_path(model.brand_logo, disposition: "attachment") %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= label_tag :brand_name, model_class.human_attribute_name(:brand_name), class: "form-label" %>
+    <div class="form-control-plaintext border rounded">
+      <%= model.brand_name %>
+    </div>
+  </div>
+</fieldset>
+
 <fieldset id="sophon-virtual-host">
   <legend>仮想ホスト</legend>
   <%= link_to "仮想ホストの管理", sys_tenant_virtual_hosts_path(tenant_id: model) %>
