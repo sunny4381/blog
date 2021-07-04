@@ -30,10 +30,10 @@
     <div class="mb-3">
       <%= form.label :brand_logo, model_class.human_attribute_name(:brand_logo), class: "form-label" %>
       <%= form.file_field :brand_logo, class: "form-control" %>
-      <% if model.brand_logo.present? %>
-        <%= link_to model.brand_logo.filename, url_for(model.brand_logo), target: "_blank" %>
+      <% if model.brand_logo_blob.present? %>
+        <%= link_to model.brand_logo_blob.filename, url_for(model.brand_logo_blob), target: "_blank" %>
         <label>
-          <%= form.check_box :in_rm_brand_logo %>
+          <%= form.check_box :in_rm_brand_logo, {}, model.brand_logo_blob.id, "" %>
           削除
         </label>
       <% end %>
