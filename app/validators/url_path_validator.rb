@@ -10,8 +10,10 @@ class UrlPathValidator < ActiveModel::EachValidator
       return
     end
 
-    value.split('/').each do |path_part|
+    path_parts = value.split('/')
+    path_parts.each_with_index do |path_part, index|
       if path_part.blank?
+        next if index == 0 || index == path_parts.length - 1
         record.errors.add attribute, :malformed_path
         break
       end

@@ -5,22 +5,21 @@ class HostValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 
-    name, port = value.split(':', 2)
     has_error = false
-    name.split('.').each do |part|
+    value.split('.').each do |part|
       if part.blank?
         record.errors.add attribute, :malformed_host
         has_error = true
         break
       end
 
-      if name.starts_with?("-", "_")
+      if part.starts_with?("-", "_")
         record.errors.add attribute, :malformed_host
         has_error = true
         break
       end
 
-      if name.ends_with?("-", "_")
+      if part.ends_with?("-", "_")
         record.errors.add attribute, :malformed_host
         has_error = true
         break
@@ -33,9 +32,5 @@ class HostValidator < ActiveModel::EachValidator
       end
     end
     return if has_error
-
-    if port.present? && !port.numeric?
-      record.errors.add attribute, :malformed_host
-    end
   end
 end
