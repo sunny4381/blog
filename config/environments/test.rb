@@ -52,6 +52,8 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
+  config.active_record.immutable_strings_by_default = true
+
   config.i18n.available_locales = %i[en ja]
   config.i18n.default_locale = :ja
 
