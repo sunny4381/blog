@@ -1,0 +1,26 @@
+<%= form_with model: model, scope: :model, class: "model-form", data: { id: model.id } do |form| %>
+  <%= render 'layouts/error_messages', model: model %>
+
+  <article id="sophon-basic">
+    <header><h2>基本情報</h2></header>
+    <div class="mb-3">
+      <%= form.label :parent_id, model_class.human_attribute_name(:parent_id), class: "form-label" %>
+      <%= form.select :parent_id, options_from_collection_for_select(Sys::Group.all.and_tenant(tenant), :id, :name), { include_blank: true }, { class: "form-select" } %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :gid, model_class.human_attribute_name(:gid), class: "form-label" %>
+      <%= form.text_field :gid, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+  </article>
+
+  <section>
+    <%= form.submit "作成", class: "btn btn-primary" %>
+    <%= link_to "キャンセル", { action: :index }, { class: "btn btn-outline-secondary" } %>
+  </section>
+<% end %>

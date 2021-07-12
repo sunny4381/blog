@@ -1,0 +1,50 @@
+<%= form_with model: model, scope: :model, class: "model-form", data: { id: model.id } do |form| %>
+  <%= render 'layouts/error_messages', model: model %>
+
+  <article id="sophon-basic">
+    <header><h2>基本情報</h2></header>
+    <div class="mb-3">
+      <%= form.label :uid, model_class.human_attribute_name(:uid), class: "form-label" %>
+      <%= form.text_field :uid, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :password, model_class.human_attribute_name(:password), class: "form-label" %>
+      <%= form.password_field :password, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :password_confirmation, model_class.human_attribute_name(:password_confirmation), class: "form-label" %>
+      <%= form.password_field :password_confirmation, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :email, model_class.human_attribute_name(:email), class: "form-label" %>
+      <%= form.email_field :email, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :title, model_class.human_attribute_name(:title), class: "form-label" %>
+      <%= form.text_field :title, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :enabled_at, model_class.human_attribute_name(:enabled_at), class: "form-label" %>
+      <div class="input-group">
+        <%= form.date_field :enabled_at, class: "form-control" %>
+        <span class="input-group-text"><%= t("wave_dash") %></span>
+        <%= form.date_field :disabled_at, class: "form-control" %>
+      </div>
+    </div>
+  </article>
+
+  <section>
+    <%= form.submit "作成", class: "btn btn-primary" %>
+    <%= link_to "キャンセル", { action: :index }, { class: "btn btn-outline-secondary" } %>
+  </section>
+<% end %>

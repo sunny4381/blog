@@ -66,11 +66,7 @@ class TenantFilter
     end
 
     @all_tenants_loaded_at = now
-    @all_tenants ||= begin
-      require "sys/tenant"
-      require "sys/virtual_host"
-      Sys::Tenant.all.includes(:virtual_hosts).to_a
-    end
+    @all_tenants ||= Sys::Tenant.all.includes(:virtual_hosts).to_a
   end
 
   def join_script_name(base, path)

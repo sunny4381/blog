@@ -1,0 +1,22 @@
+<%= link_to "新規作成", { action: :new }, { class: "btn btn-primary" } %>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col"><%= model_class.human_attribute_name :uid %></th>
+    <th scope="col"><%= model_class.human_attribute_name :name %></th>
+    <th scope="col"><%= model_class.human_attribute_name :enabled_at %></th>
+    <th scope="col"><%= model_class.human_attribute_name :disabled_at %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% models.each do |model| %>
+    <tr>
+      <td><%= link_to model.uid, url_for(action: :show, id: model) %></td>
+      <td><%= model.name %></td>
+      <td><%= sophon_date model.enabled_at %></td>
+      <td><%= sophon_date model.disabled_at %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,18 @@
+<%= link_to "新規作成", { action: :new }, { class: "btn btn-primary" } %>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col"><%= model_class.human_attribute_name :gid %></th>
+    <th scope="col"><%= model_class.human_attribute_name :name %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% models.each do |model| %>
+    <tr>
+      <td><%= link_to model.gid, url_for(action: :show, id: model) %></td>
+      <td><%= model.ancestors.map(&:name).join("/") %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

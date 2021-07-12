@@ -1,0 +1,56 @@
+<%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
+<%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
+
+<article id="sophon-basic">
+  <header><h2>基本情報</h2></header>
+
+  <div class="mb-3">
+    <%= label_tag :uid, model_class.human_attribute_name(:uid), class: "form-label" %>
+    <div class="form-control-plaintext border rounded">
+      <%= model.uid %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
+    <div class="form-control-plaintext border rounded">
+      <%= model.name %>
+    </div>
+  </div>
+
+  <% if model.email.present? %>
+    <div class="mb-3">
+      <%= label_tag :email, model_class.human_attribute_name(:email), class: "form-label" %>
+      <div class="form-control-plaintext border rounded">
+        <%= model.email %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if model.title.present? %>
+    <div class="mb-3">
+      <%= label_tag :title, model_class.human_attribute_name(:title), class: "form-label" %>
+      <div class="form-control-plaintext border rounded">
+        <%= model.title %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if model.enabled_at || model.disabled_at %>
+    <div class="mb-3">
+      <%= label_tag :enabled_at, model_class.human_attribute_name(:enabled_at), class: "form-label" %>
+      <div class="form-control-plaintext border rounded">
+        <%=
+          [].tap do |array|
+            array << I18n.l(model.enabled_at.to_date) if model.enabled_at
+            array << I18n.l(model.disabled_at.to_date) if model.disabled_at
+          end.join(t("wave_dash"))
+        %>
+      </div>
+    </div>
+  <% end %>
+</article>
+
+<section>
+  <%= link_to "戻る", { action: :index }, { class: "btn btn-outline-secondary" } %>
+</section>

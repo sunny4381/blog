@@ -1,0 +1,33 @@
+<%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
+<%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
+
+<article id="sophon-basic">
+  <header><h2>基本情報</h2></header>
+
+  <% if model.parent.present? %>
+    <div class="mb-3">
+      <%= label_tag :parent_id, model_class.human_attribute_name(:parent_id), class: "form-label" %>
+      <div class="form-control-plaintext border rounded">
+        <%= model.ancestors(include_self: false).pluck(:name).join("/") %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= label_tag :gid, model_class.human_attribute_name(:gid), class: "form-label" %>
+    <div class="form-control-plaintext border rounded">
+      <%= model.gid %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
+    <div class="form-control-plaintext border rounded">
+      <%= model.name %>
+    </div>
+  </div>
+</article>
+
+<section>
+  <%= link_to "戻る", { action: :index }, { class: "btn btn-outline-secondary" } %>
+</section>

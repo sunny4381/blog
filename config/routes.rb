@@ -8,5 +8,14 @@ Rails.application.routes.draw do
         get :delete, on: :member
       end
     end
+
+    constraints(lambda { |request| request.env["sophon.tenant"].present? }) do
+      resources :users do
+        get :delete, on: :member
+      end
+      resources :groups do
+        get :delete, on: :member
+      end
+    end
   end
 end

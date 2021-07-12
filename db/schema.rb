@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_04_065836) do
+ActiveRecord::Schema.define(version: 2021_07_11_231303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -45,6 +45,28 @@ ActiveRecord::Schema.define(version: 2021_07_04_065836) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "sys_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "tenant_id", null: false
+    t.uuid "parent_id"
+    t.string "gid", null: false
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["parent_id"], name: "index_sys_groups_on_parent_id"
+    t.index ["tenant_id", "gid"], name: "index_sys_groups_on_tenant_id_and_gid", unique: true
+    t.index ["tenant_id"], name: "index_sys_groups_on_tenant_id"
+  end
+
+  create_table "sys_groups_users", id: false, force: :cascade do |t|
+    t.uuid "group_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_sys_groups_users_on_group_id"
+    t.index ["user_id", "group_id"], name: "index_sys_groups_users_on_user_id_and_group_id", unique: true
+    t.index ["user_id"], name: "index_sys_groups_users_on_user_id"
+  end
+
   create_table "sys_tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.text "memo"
@@ -54,6 +76,21 @@ ActiveRecord::Schema.define(version: 2021_07_04_065836) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "brand_name"
     t.index ["name"], name: "index_sys_tenants_on_name", unique: true
+  end
+
+  create_table "sys_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "tenant_id", null: false
+    t.string "uid", null: false
+    t.string "name", null: false
+    t.string "password_digest"
+    t.string "email"
+    t.string "title"
+    t.datetime "enabled_at"
+    t.datetime "disabled_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tenant_id", "uid"], name: "index_sys_users_on_tenant_id_and_uid", unique: true
+    t.index ["tenant_id"], name: "index_sys_users_on_tenant_id"
   end
 
   create_table "sys_virtual_hosts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

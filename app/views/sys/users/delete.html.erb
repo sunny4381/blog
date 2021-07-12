@@ -1,0 +1,21 @@
+<%= form_with model: model, method: :delete, scope: :model, class: "model-form", data: { id: model.id } do |form| %>
+  <%= render 'layouts/error_messages', model: model %>
+
+  <article id="sophon-basic">
+    <header><h2>基本情報</h2></header>
+    <div class="mb-3">
+      <%= form.label :uid, model_class.human_attribute_name(:uid), class: "form-label" %>
+      <%= form.text_field :uid, class: "form-control", readonly: true %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
+      <%= form.text_field :name, class: "form-control", readonly: true %>
+    </div>
+  </article>
+
+  <section>
+    <%= form.submit "削除", class: "btn btn-danger" %>
+    <%= link_to "キャンセル", { action: :show }, { class: "btn btn-outline-secondary" } %>
+  </section>
+<% end %>
