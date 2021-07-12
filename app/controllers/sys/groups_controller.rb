@@ -6,9 +6,12 @@ class Sys::GroupsController < ApplicationController
   helper_method :model_class, :models, :model, :tenant
 
   def index
+    @models = models.order(gid: :asc).preload_parents
   end
 
   def show
+    groups = models.where(id: params[:id]).preload_parents
+    @model = groups.find { |group| group.id == params[:id] }
   end
 
   def new
@@ -51,7 +54,7 @@ class Sys::GroupsController < ApplicationController
   private
 
   def models
-    @models ||= model_class.all.order(gid: :asc)
+    @models ||= model_class.all.and_tenant(tenant)
   end
 
   def model
