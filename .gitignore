@@ -227,3 +227,7 @@ yarn-debug.log*
 /storage/*
 !/storage/.keep
 /public/uploads
+
+# HTTPS
+/config/certs/*
+!/config/certs/.keep
