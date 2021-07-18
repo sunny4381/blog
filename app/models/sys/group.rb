@@ -1,11 +1,25 @@
 class Sys::Group < ApplicationRecord
+  attr_accessor :in_parent_id
+
   belongs_to :tenant, class_name: "Sys::Tenant", required: true
-  belongs_to :parent, class_name: "Sys::Group", optional: true
-  has_many :children, class_name: "Sys::Group", foreign_key: :parent_id
+
+  has_many :parent_group_closures, class_name: "Sys::GroupClosure", foreign_key: 'child_id'
+  has_many :parents, through: :parent_group_closures, source: :parent
+  has_many :child_group_closures, class_name: "Sys::GroupClosure", foreign_key: 'parent_id'
+  has_many :children, through: :child_group_closures, source: :child
   has_and_belongs_to_many :users
+
+  before_validation do
+    if self.parent_group_closures.blank?
+      self.parent_group_closures.build(parent: self, child: self)
+    end
+    self.depth ||= 1
+  end
 
   validates :gid, presence: true, uniqueness: %i[tenant_id], length: { maximum: 40 }
   validates :name, presence: true, length: { maximum: 40 }
+  validates :depth, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :parent_group_closures, presence: true
 
   before_destroy do
     next if children.blank?
@@ -18,50 +32,27 @@ class Sys::Group < ApplicationRecord
     def and_tenant(tenant)
       self.all.where(tenant_id: tenant.id)
     end
-
-    def preload_parents
-      sql = <<-SQL
-      WITH RECURSIVE ancestors as (
-        #{self.all.reorder(nil).to_sql}
-        UNION ALL
-        #{Sys::Group.unscoped.joins("JOIN ancestors ON ancestors.parent_id = sys_groups.id").to_sql}
-      )
-      SELECT DISTINCT * FROM ancestors#{self.all.order_values.present? ? " ORDER BY " + self.all.order_values.map(&:to_sql).join(",").gsub("sys_groups", "ancestors") : nil  };
-      SQL
-      ancestors = self.find_by_sql(sql)
-
-      groups = select_children(ancestors, nil)
-      while groups.present? do
-        all_children = []
-        groups.each do |group|
-          children = select_children(ancestors, group.id)
-          children.each { |child| child.parent = group }
-          all_children += children
-        end
-
-        groups = all_children
-      end
-
-      ancestors
-    end
-
-    private
-
-    def select_children(groups, parent_id)
-      groups.select { |group| group.parent_id == parent_id }
-    end
   end
 
-  def ancestors(include_self: true)
-    ret = include_self ? [ self ] : []
+  def parent
+    return if new_record? || parents.count <= 1
 
-    parent = self.parent
-    while parent
-      ret << parent
-      parent = parent.parent
+    parents = parents.to_a
+    parents.sort_by! { |group| group.depth }
+    parents[-2]
+  end
+
+  # if you want to clear parents, just call `ssign_parent(nil)`
+  def assign_parent(parent_group)
+    self.parent_group_closures.destroy_all
+
+    if parent_group.present?
+      parent_group.parents.each do |ancestor|
+        self.parent_group_closures.build(parent: ancestor, child: self)
+      end
     end
 
-    ret.reverse!
-    ret
+    self.parent_group_closures.build(parent: self, child: self)
+    self.depth = parent_group.parents.count + 1
   end
 end

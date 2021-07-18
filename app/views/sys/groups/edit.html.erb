@@ -3,10 +3,20 @@
 
   <article id="sophon-basic">
     <header><h2>基本情報</h2></header>
-    <div class="mb-3">
-      <%= form.label :parent, model_class.human_attribute_name(:parent), class: "form-label" %>
-      <%= form.select :parent_id, options_from_collection_for_select(Sys::Group.all.and_tenant(tenant), :id, :name, model.parent_id), { include_blank: true }, { class: "form-control" } %>
-    </div>
+    <%
+      parents = model.parents
+      parents = parents.to_a
+      parents = parents.sort_by { |group| group.depth }
+      parents.pop
+    %>
+    <% if parents.present? %>
+      <div class="mb-3">
+        <%= label_tag :parent_id, model_class.human_attribute_name(:parent_id), class: "form-label" %>
+        <div class="form-control-plaintext border rounded">
+          <%= parents.pluck(:name).join("/") %>
+        </div>
+      </div>
+    <% end %>
 
     <div class="mb-3">
       <%= form.label :gid, model_class.human_attribute_name(:gid), class: "form-label" %>

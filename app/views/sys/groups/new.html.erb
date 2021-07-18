@@ -5,7 +5,7 @@
     <header><h2>基本情報</h2></header>
     <div class="mb-3">
       <%= form.label :parent_id, model_class.human_attribute_name(:parent_id), class: "form-label" %>
-      <%= form.select :parent_id, options_from_collection_for_select(Sys::Group.all.and_tenant(tenant), :id, :name), { include_blank: true }, { class: "form-select" } %>
+      <%= form.select :parent_id, options_for_parent, { include_blank: true }, { class: "form-select" } %>
     </div>
 
     <div class="mb-3">

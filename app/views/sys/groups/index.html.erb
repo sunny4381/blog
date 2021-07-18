@@ -11,7 +11,7 @@
   <% models.each do |model| %>
     <tr>
       <td><%= link_to model.gid, url_for(action: :show, id: model) %></td>
-      <td><%= model.ancestors.map(&:name).join("/") %></td>
+      <td><%= model.parents.to_a.sort_by { |group| group.depth }.map(&:name).join("/") %></td>
     </tr>
   <% end %>
   </tbody>

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         get :delete, on: :member
       end
       resources :groups do
+        match :move, on: :member, via: %i[get post]
         get :delete, on: :member
       end
     end

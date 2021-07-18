@@ -16,13 +16,21 @@ class CreateSysUsers < ActiveRecord::Migration[6.1]
 
     create_table :sys_groups, id: :uuid do |t|
       t.belongs_to :tenant, type: :uuid, null: false
-      t.belongs_to :parent, type: :uuid
       t.string :gid, null: false
       t.string :name, null: false
+      t.integer :depth, null: false
 
       t.timestamps
     end
     add_index :sys_groups, %i[tenant_id gid], unique: true
+
+    create_table :sys_group_closures, id: false do |t|
+      t.belongs_to :parent, type: :uuid, null: false
+      t.belongs_to :child, type: :uuid, null: false
+
+      t.timestamps
+    end
+    add_index :sys_group_closures, %i[parent_id child_id], unique: true
 
     create_table :sys_groups_users, id: false do |t|
       t.belongs_to :group, type: :uuid, null: false

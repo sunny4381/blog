@@ -1,30 +1,34 @@
 <%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
+<%= link_to "移動", { action: :move }, { class: "btn btn-outline-secondary" } %>
 <%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
 
 <article id="sophon-basic">
   <header><h2>基本情報</h2></header>
 
-  <% if model.parent.present? %>
+  <%
+    parents = model.parents
+    parents = parents.to_a
+    parents = parents.sort_by { |group| group.depth }
+    parents.pop
+  %>
+  <% if parents.present? %>
     <div class="mb-3">
-      <%= label_tag :parent_id, model_class.human_attribute_name(:parent_id), class: "form-label" %>
-      <div class="form-control-plaintext border rounded">
-        <%= model.ancestors(include_self: false).map(&:name).join("/") %>
+    <%= label_tag :parent_id, model_class.human_attribute_name(:parent_id), class: "form-label" %>
+      <div class="input-group">
+        <%= text_field_tag :parent_id, parents.pluck(:name).join("/"), class: "form-control", readonly: true %>
+        <%= link_to "変更", { action: :move }, class: "btn btn-outline-secondary" %>
       </div>
     </div>
   <% end %>
 
   <div class="mb-3">
     <%= label_tag :gid, model_class.human_attribute_name(:gid), class: "form-label" %>
-    <div class="form-control-plaintext border rounded">
-      <%= model.gid %>
-    </div>
+    <%= text_field_tag :gid, model.gid, class: "form-control", readonly: true %>
   </div>
 
   <div class="mb-3">
     <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
-    <div class="form-control-plaintext border rounded">
-      <%= model.name %>
-    </div>
+    <%= text_field_tag :name, model.name, class: "form-control", readonly: true %>
   </div>
 </article>
 

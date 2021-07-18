@@ -3,15 +3,12 @@ class Sys::GroupsController < ApplicationController
 
   self.model_class = Sys::Group
 
-  helper_method :model_class, :models, :model, :tenant
+  helper_method :model_class, :models, :model, :tenant, :options_for_parent
 
   def index
-    @models = models.order(gid: :asc).preload_parents
   end
 
   def show
-    groups = models.where(id: params[:id]).preload_parents
-    @model = groups.find { |group| group.id == params[:id] }
   end
 
   def new
@@ -19,8 +16,14 @@ class Sys::GroupsController < ApplicationController
   end
 
   def create
-    @model = model_class.new params.require(:model).permit(:gid, :name, :parent_id)
+    @model = model_class.new params.require(:model).permit(:gid, :name)
     @model.tenant = tenant
+
+    parent_id = params.require(:model).permit(:parent_id)[:parent_id]
+    if parent_id.present?
+      @model.assign_parent(models.find(parent_id))
+    end
+
     if @model.save
       redirect_to url_for(action: :show, id: @model), notice: "作成しました。"
     else
@@ -32,7 +35,19 @@ class Sys::GroupsController < ApplicationController
   end
 
   def update
-    model.attributes = params.require(:model).permit(:gid, :name, :parent_id)
+    model.attributes = params.require(:model).permit(:gid, :name)
+
+    parent_id = params.require(:model).permit(:parent_id)[:parent_id]
+    if parent_id.present?
+      if model.parent.blank? || model.parent.id != parent_id
+        @model.assign_parent(models.find(parent_id))
+      end
+    else # parent_id is blank
+      if model.parent.present?
+        @model.assign_parent(nil)
+      end
+    end
+
     if @model.save
       redirect_to url_for(action: :show), notice: "保存しました。"
     else
@@ -54,7 +69,7 @@ class Sys::GroupsController < ApplicationController
   private
 
   def models
-    @models ||= model_class.all.and_tenant(tenant)
+    @models ||= model_class.all.and_tenant(tenant).preload(:parent_group_closures, :parents).order(gid: :asc, name: :asc)
   end
 
   def model
@@ -63,5 +78,16 @@ class Sys::GroupsController < ApplicationController
 
   def tenant
     @tenant ||= request.env["sophon.tenant"]
+  end
+
+  def options_for_parent
+    options = models.map { |group| [ "#{group.name} (#{group.gid})", group.id ] }
+    selected = nil
+    if model.persisted? && model.parents.count > 1
+      parents = model.parents.to_a
+      parents.sort_by! { |group| group.depth }
+      selected = parents[-2].id
+    end
+    view_context.options_for_select(options, selected)
   end
 end

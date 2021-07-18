@@ -45,14 +45,23 @@ ActiveRecord::Schema.define(version: 2021_07_11_231303) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "sys_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "tenant_id", null: false
-    t.uuid "parent_id"
-    t.string "gid", null: false
-    t.string "name", null: false
+  create_table "sys_group_closures", id: false, force: :cascade do |t|
+    t.uuid "parent_id", null: false
+    t.uuid "child_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["parent_id"], name: "index_sys_groups_on_parent_id"
+    t.index ["child_id"], name: "index_sys_group_closures_on_child_id"
+    t.index ["parent_id", "child_id"], name: "index_sys_group_closures_on_parent_id_and_child_id", unique: true
+    t.index ["parent_id"], name: "index_sys_group_closures_on_parent_id"
+  end
+
+  create_table "sys_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "tenant_id", null: false
+    t.string "gid", null: false
+    t.string "name", null: false
+    t.integer "depth", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["tenant_id", "gid"], name: "index_sys_groups_on_tenant_id_and_gid", unique: true
     t.index ["tenant_id"], name: "index_sys_groups_on_tenant_id"
   end
