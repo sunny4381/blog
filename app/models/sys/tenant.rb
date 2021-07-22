@@ -10,7 +10,7 @@ class Sys::Tenant < ApplicationRecord
   validates :brand_name, length: { maximum: 40 }
   validate :validate_brand_logo
 
-  after_save if: ->{ in_rm_brand_logo.present? } do |record|
+  after_save if: -> { in_rm_brand_logo.present? } do |record|
     record.brand_logo.purge if record.brand_logo.present? && record.brand_logo_blob.id == in_rm_brand_logo.to_s.to_i
   end
 
@@ -25,9 +25,9 @@ class Sys::Tenant < ApplicationRecord
       return
     end
 
-    unless %w(image/png image/jpeg).include?(content_type)
+    unless %w[image/png image/jpeg].include?(content_type)
       errors.add :brand_logo, :invalid_type
-      return
+      nil
     end
   end
 end

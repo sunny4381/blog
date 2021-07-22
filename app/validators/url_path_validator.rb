@@ -1,6 +1,6 @@
 class UrlPathValidator < ActiveModel::EachValidator
   # period is not allowed
-  STRICT_SAFE_PATH_REGEX = /\A[0-9a-zA-Z\-_]+\z/.freeze
+  STRICT_SAFE_PATH_REGEX = /\A[0-9a-zA-Z\-_]+\z/
 
   def validate_each(record, attribute, value)
     return if value.blank?
@@ -14,6 +14,7 @@ class UrlPathValidator < ActiveModel::EachValidator
     path_parts.each_with_index do |path_part, index|
       if path_part.blank?
         next if index == 0 || index == path_parts.length - 1
+
         record.errors.add attribute, :malformed_path
         break
       end

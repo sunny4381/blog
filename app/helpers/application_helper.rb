@@ -6,7 +6,7 @@ module ApplicationHelper
 
     display_time = I18n.l(date)
     iso = date.iso8601
-    content_tag(:datetime, display_time, datetime: iso, title: display_time)
+    tag.datetime(display_time, datetime: iso, title: display_time)
   end
 
   def sophon_br(*args)

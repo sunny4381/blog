@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       end
     end
 
-    constraints(lambda { |request| request.env["sophon.tenant"].present? }) do
+    constraints(->(request) { request.env["sophon.tenant"].present? }) do
       resources :users do
         get :delete, on: :member
       end

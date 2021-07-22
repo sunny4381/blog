@@ -20,9 +20,7 @@ class Sys::GroupsController < ApplicationController
     @model.tenant = tenant
 
     parent_id = params.require(:model).permit(:parent_id)[:parent_id]
-    if parent_id.present?
-      @model.assign_parent(models.find(parent_id))
-    end
+    @model.assign_parent(models.find(parent_id)) if parent_id.present?
 
     if @model.save
       redirect_to url_for(action: :show, id: @model), notice: "作成しました。"
@@ -77,7 +75,12 @@ class Sys::GroupsController < ApplicationController
   private
 
   def models
-    @models ||= model_class.all.and_tenant(tenant).preload(:parent_group_closures, :parents).order(gid: :asc, name: :asc)
+    @models ||= begin
+      models = model_class.all.and_tenant(tenant)
+      models = models.preload(:parent_group_closures, :parents)
+      models = models.order(gid: :asc, name: :asc)
+      models
+    end
   end
 
   def model

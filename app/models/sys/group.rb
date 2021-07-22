@@ -1,7 +1,7 @@
 class Sys::Group < ApplicationRecord
   attr_accessor :in_parent_id
 
-  belongs_to :tenant, class_name: "Sys::Tenant", required: true
+  belongs_to :tenant, class_name: "Sys::Tenant"
 
   has_many :parent_group_closures, class_name: "Sys::GroupClosure", foreign_key: 'child_id'
   has_many :parents, through: :parent_group_closures, source: :parent
@@ -10,9 +10,7 @@ class Sys::Group < ApplicationRecord
   has_and_belongs_to_many :users
 
   before_validation do
-    if self.parent_group_closures.blank?
-      self.parent_group_closures.build(parent: self, child: self)
-    end
+    parent_group_closures.build(parent: self, child: self) if parent_group_closures.blank?
     self.depth ||= 1
   end
 
@@ -30,7 +28,7 @@ class Sys::Group < ApplicationRecord
 
   class << self
     def and_tenant(tenant)
-      self.all.where(tenant_id: tenant.id)
+      all.where(tenant_id: tenant.id)
     end
   end
 
@@ -38,26 +36,26 @@ class Sys::Group < ApplicationRecord
     return if new_record? || parents.count <= 1
 
     array = parents.to_a
-    array.sort_by! { |group| group.depth }
+    array.sort_by!(&:depth)
     array[-2]
   end
 
   # if you want to clear parents, just call `ssign_parent(nil)`
   def assign_parent(parent_group)
-    self.parent_group_closures.destroy_all
+    parent_group_closures.destroy_all
 
     if parent_group.present?
       parent_group.parents.each do |ancestor|
-        self.parent_group_closures.build(parent: ancestor, child: self)
+        parent_group_closures.build(parent: ancestor, child: self)
       end
     end
 
-    self.parent_group_closures.build(parent: self, child: self)
+    parent_group_closures.build(parent: self, child: self)
     self.depth = parent_group.parents.count + 1
   end
 
   def move_parent_and_save(parent_group)
-    child_group_ids = self.children.pluck(:id)
+    child_group_ids = children.pluck(:id)
     if child_group_ids.include?(parent_group.id)
       errors.add :parent, :cannot_move_to_myself_or_childrent
       return false

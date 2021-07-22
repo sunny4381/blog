@@ -16,7 +16,8 @@ class Sys::UsersController < ApplicationController
   end
 
   def create
-    @model = model_class.new params.require(:model).permit(:uid, :name, :password, :password_confirmation, :email, :title, :enabled_at, :disabled_at)
+    @model = model_class.new params.require(:model).permit(
+      :uid, :name, :password, :password_confirmation, :email, :title, :enabled_at, :disabled_at)
     @model.tenant = tenant
     if @model.save
       redirect_to url_for(action: :show, id: @model), notice: "作成しました。"
@@ -29,7 +30,8 @@ class Sys::UsersController < ApplicationController
   end
 
   def update
-    model.attributes = params.require(:model).permit(:uid, :name, :password, :password_confirmation, :email, :title, :enabled_at, :disabled_at)
+    model.attributes = params.require(:model).permit(
+      :uid, :name, :password, :password_confirmation, :email, :title, :enabled_at, :disabled_at)
     if @model.save
       redirect_to url_for(action: :show), notice: "保存しました。"
     else

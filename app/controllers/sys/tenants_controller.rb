@@ -16,7 +16,8 @@ class Sys::TenantsController < ApplicationController
   end
 
   def create
-    @model = model_class.new params.require(:model).permit(:name, :memo, :enabled_at, :disabled_at, :brand_logo, :brand_name)
+    @model = model_class.new params.require(:model).permit(
+      :name, :memo, :enabled_at, :disabled_at, :brand_logo, :brand_name)
     @model.virtual_hosts.build params.require(:model).require(:virtual_hosts).permit(:host, :path)
     if @model.save
       redirect_to url_for(action: :show, id: @model), notice: "作成しました。"
@@ -29,7 +30,8 @@ class Sys::TenantsController < ApplicationController
   end
 
   def update
-    model.attributes = params.require(:model).permit(:name, :memo, :enabled_at, :disabled_at, :brand_logo, :in_rm_brand_logo, :brand_name)
+    model.attributes = params.require(:model).permit(
+      :name, :memo, :enabled_at, :disabled_at, :brand_logo, :in_rm_brand_logo, :brand_name)
     if @model.save
       redirect_to url_for(action: :show), notice: "保存しました。"
     else

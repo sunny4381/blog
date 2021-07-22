@@ -8,7 +8,7 @@ class TenantFilter
 
   ViewClass = ActionView::Base.with_empty_template_cache
 
-  DEFAULT_RESPONSE_APP = -> env do
+  DEFAULT_RESPONSE_APP = lambda do |env|
     request = ActionDispatch::Request.new(env)
 
     format = request.xhr? ? "text/plain" : "text/html"
@@ -17,7 +17,7 @@ class TenantFilter
 
     [403, {
       "Content-Type" => "#{format}; charset=#{ActionDispatch::Response.default_charset}",
-      "Content-Length" => body.bytesize.to_s,
+      "Content-Length" => body.bytesize.to_s
     }, [body]]
   end
 
@@ -50,7 +50,11 @@ class TenantFilter
   def detect_tenant(env)
     request = Rack::Request.new(env)
 
-    tenants = all_tenants.select { |tenant| tenant.virtual_hosts.any? { |virtual_host| virtual_host.host == request.host } }
+    tenants = all_tenants.select do |tenant|
+      tenant.virtual_hosts.any? do |virtual_host|
+        virtual_host.host == request.host
+      end
+    end
     return false if tenants.blank?
 
     virtual_hosts = tenants.map(&:virtual_hosts).flatten
@@ -74,6 +78,7 @@ class TenantFilter
     now ||= Time.zone.now
     return false if @all_tenants.nil?
     return false if @all_tenants_loaded_at + TENANTS_EXPIRES_IN < now
+
     true
   end
 
