@@ -22,9 +22,20 @@ class TenantFilter
   end
 
   def initialize(app)
+    @lock = Mutex.new
     @app = app
     @response_app = DEFAULT_RESPONSE_APP
+
+    if !Rails.application.config.cache_classes
+      hold_instance = self
+      ActiveSupport::Reloader.to_prepare do
+        hold_instance.all_tenants = nil
+        hold_instance.all_tenants_loaded_at = nil
+      end
+    end
   end
+
+  attr_accessor :all_tenants, :all_tenants_loaded_at
 
   def call(env)
     if detect_tenant(env)
@@ -59,14 +70,22 @@ class TenantFilter
     true
   end
 
-  def all_tenants
-    now = Time.zone.now
-    if @all_tenants.present? && @all_tenants_loaded_at + TENANTS_EXPIRES_IN < now
-      return @all_tenants
-    end
+  def tenant_cache_available(now = nil)
+    now ||= Time.zone.now
+    return false if @all_tenants.nil?
+    return false if @all_tenants_loaded_at + TENANTS_EXPIRES_IN < now
+    true
+  end
 
-    @all_tenants_loaded_at = now
-    @all_tenants ||= Sys::Tenant.all.includes(:virtual_hosts).to_a
+  def all_tenants
+    return @all_tenants if tenant_cache_available
+
+    @lock.synchronize do
+      return @all_tenants if tenant_cache_available
+
+      @all_tenants_loaded_at = Time.zone.now
+      @all_tenants = Sys::Tenant.all.includes(:virtual_hosts).to_a
+    end
   end
 
   def join_script_name(base, path)
