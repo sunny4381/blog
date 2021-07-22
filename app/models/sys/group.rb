@@ -37,9 +37,9 @@ class Sys::Group < ApplicationRecord
   def parent
     return if new_record? || parents.count <= 1
 
-    parents = parents.to_a
-    parents.sort_by! { |group| group.depth }
-    parents[-2]
+    array = parents.to_a
+    array.sort_by! { |group| group.depth }
+    array[-2]
   end
 
   # if you want to clear parents, just call `ssign_parent(nil)`
@@ -54,5 +54,15 @@ class Sys::Group < ApplicationRecord
 
     self.parent_group_closures.build(parent: self, child: self)
     self.depth = parent_group.parents.count + 1
+  end
+
+  def move_parent_and_save(parent_group)
+    child_group_ids = self.children.pluck(:id)
+    if child_group_ids.include?(parent_group.id)
+      errors.add :parent, :cannot_move_to_myself_or_childrent
+      return false
+    end
+
+    raise NotImplementedError
   end
 end

@@ -36,19 +36,7 @@ class Sys::GroupsController < ApplicationController
 
   def update
     model.attributes = params.require(:model).permit(:gid, :name)
-
-    parent_id = params.require(:model).permit(:parent_id)[:parent_id]
-    if parent_id.present?
-      if model.parent.blank? || model.parent.id != parent_id
-        @model.assign_parent(models.find(parent_id))
-      end
-    else # parent_id is blank
-      if model.parent.present?
-        @model.assign_parent(nil)
-      end
-    end
-
-    if @model.save
+    if model.save
       redirect_to url_for(action: :show), notice: "保存しました。"
     else
       render :edit
@@ -63,6 +51,26 @@ class Sys::GroupsController < ApplicationController
       redirect_to url_for(action: :index), notice: "削除しました。"
     else
       render :delete
+    end
+  end
+
+  def move
+    if request.get?
+      render
+      return
+    end
+
+    parent_id = params.require(:model).permit(:parent_id)[:parent_id]
+    if parent_id.blank?
+      model.errors.add :parent, :blank
+      render
+      return
+    end
+
+    if model.move_parent_and_save(models.find(parent_id))
+      redirect_to url_for(action: :show), notice: "移動しました。"
+    else
+      render
     end
   end
 
