@@ -43,8 +43,35 @@
     </div>
   </article>
 
+  <% if groups.present? %>
+    <% cur_group_ids = model.groups.pluck(:id) %>
+    <section id="sophon-group">
+      <header><h2>グループ</h2></header>
+      <div class="mb-3">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col"><%= Sys::Group.human_attribute_name :gid %></th>
+            <th scope="col"><%= Sys::Group.human_attribute_name :name %></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% groups.each do |group| %>
+            <tr>
+              <td><%= check_box_tag "#{form.object_name}[group_users_attributes][][group_id]", group.id, cur_group_ids.include?(group.id), id: nil %></td>
+              <td><%= group.gid %></td>
+              <td><%= group.parents.to_a.sort_by(&:depth).map(&:name).join("/") %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  <% end %>
+
   <section>
-    <%= form.submit "作成", class: "btn btn-primary" %>
+    <%= form.submit "保存", class: "btn btn-primary" %>
     <%= link_to "キャンセル", { action: :index }, { class: "btn btn-outline-secondary" } %>
   </section>
 <% end %>

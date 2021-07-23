@@ -3,7 +3,7 @@ class Sys::UsersController < ApplicationController
 
   self.model_class = Sys::User
 
-  helper_method :model_class, :models, :model
+  helper_method :model_class, :models, :model, :groups
 
   def index
   end
@@ -17,9 +17,11 @@ class Sys::UsersController < ApplicationController
 
   def create
     @model = model_class.new params.require(:model).permit(
-      :uid, :name, :password, :password_confirmation, :email, :title, :enabled_at, :disabled_at
+      :uid, :name, :password, :password_confirmation, :email, :title, :enabled_at, :disabled_at,
+      group_users_attributes: %i[group_id]
     )
     @model.tenant = tenant
+
     if @model.save
       redirect_to url_for(action: :show, id: @model), notice: "作成しました。"
     else
@@ -32,8 +34,19 @@ class Sys::UsersController < ApplicationController
 
   def update
     model.attributes = params.require(:model).permit(
-      :uid, :name, :password, :password_confirmation, :email, :title, :enabled_at, :disabled_at
+      :uid, :name, :password, :password_confirmation, :email, :title, :enabled_at, :disabled_at,
+      group_users_attributes: %i[group_id]
     )
+
+    # group_ids = params.require(:model).permit(group_ids: [])[:group_ids]
+    # group_ids.select!(&:present?)
+    # model.group_users.destroy_all
+    # if group_ids.present?
+    #   group_ids.each do |group_id|
+    #     model.group_users.build(group_id: group_id)
+    #   end
+    # end
+
     if @model.save
       redirect_to url_for(action: :show), notice: "保存しました。"
     else
@@ -55,7 +68,7 @@ class Sys::UsersController < ApplicationController
   private
 
   def models
-    @models ||= model_class.all
+    @models ||= model_class.all.and_tenant(tenant).preload(:group_users, :groups)
   end
 
   def model
@@ -64,5 +77,9 @@ class Sys::UsersController < ApplicationController
 
   def tenant
     @tenant ||= request.env["sophon.tenant"]
+  end
+
+  def groups
+    @groups ||= Sys::Group.all.and_tenant(tenant).preload(:parent_group_closures, :parents).order(gid: :asc, name: :asc)
   end
 end

@@ -1,7 +1,7 @@
 <%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
 <%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
 
-<article id="sophon-basic">
+<section id="sophon-basic">
   <header><h2>基本情報</h2></header>
 
   <div class="mb-3">
@@ -49,7 +49,30 @@
       </div>
     </div>
   <% end %>
-</article>
+</section>
+
+<section id="sophon-basic">
+  <header><h2>グループ</h2></header>
+
+  <div class="mb-3">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col"><%= Sys::Group.human_attribute_name :gid %></th>
+        <th scope="col"><%= Sys::Group.human_attribute_name :name %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% model.groups.preload(:parent_group_closures, :parents).order(gid: :asc, name: :asc).each do |group| %>
+        <tr>
+          <td><%= group.gid %></td>
+          <td><%= group.parents.to_a.sort_by { |group| group.depth }.map(&:name).join("/") %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
 
 <section>
   <%= link_to "戻る", { action: :index }, { class: "btn btn-outline-secondary" } %>
