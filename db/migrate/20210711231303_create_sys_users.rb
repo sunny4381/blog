@@ -32,12 +32,12 @@ class CreateSysUsers < ActiveRecord::Migration[6.1]
     end
     add_index :sys_group_closures, %i[parent_id child_id], unique: true
 
-    create_table :sys_groups_users, id: false do |t|
+    create_table :sys_group_users, id: false do |t|
       t.belongs_to :group, type: :uuid, null: false
       t.belongs_to :user, type: :uuid, null: false
 
       t.timestamps
     end
-    add_index :sys_groups_users, %i[user_id group_id], unique: true
+    add_index :sys_group_users, %i[group_id user_id], unique: true
   end
 end

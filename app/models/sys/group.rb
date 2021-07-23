@@ -9,7 +9,8 @@ class Sys::Group < ApplicationRecord
   has_many :child_group_closures,
            class_name: "Sys::GroupClosure", foreign_key: 'parent_id', inverse_of: :parent, dependent: :destroy
   has_many :children, through: :child_group_closures, source: :child
-  has_and_belongs_to_many :users
+  has_many :group_users, inverse_of: :group, dependent: :destroy
+  has_many :users, through: :group_users, source: :group
 
   before_validation do
     parent_group_closures.build(parent: self, child: self) if parent_group_closures.blank?
