@@ -3,9 +3,11 @@ class Sys::Group < ApplicationRecord
 
   belongs_to :tenant, class_name: "Sys::Tenant"
 
-  has_many :parent_group_closures, class_name: "Sys::GroupClosure", foreign_key: 'child_id'
+  has_many :parent_group_closures,
+           class_name: "Sys::GroupClosure", foreign_key: 'child_id', inverse_of: :child, dependent: :destroy
   has_many :parents, through: :parent_group_closures, source: :parent
-  has_many :child_group_closures, class_name: "Sys::GroupClosure", foreign_key: 'parent_id'
+  has_many :child_group_closures,
+           class_name: "Sys::GroupClosure", foreign_key: 'parent_id', inverse_of: :parent, dependent: :destroy
   has_many :children, through: :child_group_closures, source: :child
   has_and_belongs_to_many :users
 

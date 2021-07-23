@@ -1,4 +1,5 @@
 # This migration comes from active_storage (originally 20170806125915)
+# rubocop:disable Rails/CreateTableWithTimestamps
 class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
   def change
     create_table :active_storage_blobs do |t|
@@ -37,3 +38,4 @@ class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
     add_column :sys_tenants, :brand_name, :string
   end
 end
+# rubocop:enable Rails/CreateTableWithTimestamps

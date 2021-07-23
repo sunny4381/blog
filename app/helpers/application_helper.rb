@@ -20,6 +20,6 @@ module ApplicationHelper
     args.flatten!
     args.compact!
     args.map! { |arg| sanitize(arg.presence || "") }
-    args.join("<br>").html_safe
+    sanitize(args.join("<br>"))
   end
 end

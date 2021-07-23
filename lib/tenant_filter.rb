@@ -26,16 +26,13 @@ class TenantFilter
     @app = app
     @response_app = DEFAULT_RESPONSE_APP
 
-    if !Rails.application.config.cache_classes
-      hold_instance = self
-      ActiveSupport::Reloader.to_prepare do
-        hold_instance.all_tenants = nil
-        hold_instance.all_tenants_loaded_at = nil
-      end
+    return if Rails.application.config.cache_classes
+
+    hold_instance = self
+    ActiveSupport::Reloader.to_prepare do
+      hold_instance.clear_tenants_cache
     end
   end
-
-  attr_accessor :all_tenants, :all_tenants_loaded_at
 
   def call(env)
     if detect_tenant(env)
@@ -45,22 +42,19 @@ class TenantFilter
     end
   end
 
+  def clear_tenants_cache
+    @lock.synchronize do
+      @all_tenants = nil
+      @all_tenants_loaded_at = nil
+    end
+  end
+
   private
 
   def detect_tenant(env)
     request = Rack::Request.new(env)
 
-    tenants = all_tenants.select do |tenant|
-      tenant.virtual_hosts.any? do |virtual_host|
-        virtual_host.host == request.host
-      end
-    end
-    return false if tenants.blank?
-
-    virtual_hosts = tenants.map(&:virtual_hosts).flatten
-    virtual_hosts.sort! { |lhs, rhs| rhs.path.length <=> lhs.path.length }
-
-    virtual_host = virtual_hosts.find { |virtual_host| request.path.starts_with?(virtual_host.path) }
+    virtual_host = find_virtual_host(request)
     return false if virtual_host.blank?
 
     tenant = virtual_host.parent
@@ -68,10 +62,27 @@ class TenantFilter
     env["sophon.tenant"] = tenant
     if virtual_host.path != "/"
       env["SCRIPT_NAME"] = join_script_name(env["SCRIPT_NAME"], virtual_host.path)
-      env["PATH_INFO"] = env["PATH_INFO"][virtual_host.path.length - 1..-1]
+      env["PATH_INFO"] = env["PATH_INFO"][virtual_host.path.length - 1..]
     end
 
     true
+  end
+
+  def find_virtual_host(request)
+    tenants = select_tenants(request)
+    return if tenants.blank?
+
+    virtual_hosts = tenants.map(&:virtual_hosts).flatten
+    virtual_hosts.sort! { |lhs, rhs| rhs.path.length <=> lhs.path.length }
+    virtual_hosts.find { |virtual_host| request.path.starts_with?(virtual_host.path) }
+  end
+
+  def select_tenants(request)
+    all_tenants.select do |tenant|
+      tenant.virtual_hosts.any? do |virtual_host|
+        virtual_host.host == request.host
+      end
+    end
   end
 
   def tenant_cache_available(now = nil)
@@ -83,8 +94,6 @@ class TenantFilter
   end
 
   def all_tenants
-    return @all_tenants if tenant_cache_available
-
     @lock.synchronize do
       return @all_tenants if tenant_cache_available
 

@@ -1,7 +1,7 @@
 class Sys::Tenant < ApplicationRecord
   self.implicit_order_column = "created_at"
 
-  has_many :virtual_hosts, as: :parent
+  has_many :virtual_hosts, as: :parent, dependent: :destroy
   has_one_attached :brand_logo
   attr_accessor :in_rm_brand_logo
 
@@ -25,9 +25,6 @@ class Sys::Tenant < ApplicationRecord
       return
     end
 
-    unless %w[image/png image/jpeg].include?(content_type)
-      errors.add :brand_logo, :invalid_type
-      nil
-    end
+    errors.add :brand_logo, :invalid_type if !%w[image/png image/jpeg].include?(content_type)
   end
 end

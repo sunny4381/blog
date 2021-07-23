@@ -96,7 +96,7 @@ class Sys::GroupsController < ApplicationController
     selected = nil
     if model.persisted? && model.parents.count > 1
       parents = model.parents.to_a
-      parents.sort_by! { |group| group.depth }
+      parents.sort_by!(&:depth)
       selected = parents[-2].id
     end
     view_context.options_for_select(options, selected)
