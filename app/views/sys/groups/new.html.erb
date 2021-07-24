@@ -3,24 +3,30 @@
 
   <article id="sophon-basic">
     <header><h2>基本情報</h2></header>
-    <div class="mb-3">
-      <%= form.label :parent_id, model_class.human_attribute_name(:parent_id), class: "form-label" %>
-      <%= form.select :parent_id, options_for_parent, { include_blank: true }, { class: "form-select" } %>
+    <div class="uk-margin">
+      <%= form.label :parent_id, model_class.human_attribute_name(:parent_id), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.select :parent_id, options_for_parent, { include_blank: true }, { class: "uk-select" } %>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :gid, model_class.human_attribute_name(:gid), class: "form-label" %>
-      <%= form.text_field :gid, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :gid, model_class.human_attribute_name(:gid), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.text_field :gid, class: "uk-input" %>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
-      <%= form.text_field :name, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.text_field :name, class: "uk-input" %>
+      </div>
     </div>
   </article>
 
-  <section>
-    <%= form.submit "作成", class: "btn btn-primary" %>
-    <%= link_to "キャンセル", { action: :index }, { class: "btn btn-outline-secondary" } %>
+  <section class="uk-margin">
+    <%= form.submit "作成", class: "uk-button uk-button-primary" %>
+    <%= link_to "キャンセル", { action: :index }, { class: "uk-button uk-button-default" } %>
   </section>
 <% end %>

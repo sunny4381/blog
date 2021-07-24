@@ -1,45 +1,47 @@
-<%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
-<%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
+<%= link_to "編集", { action: :edit }, { class: "uk-button uk-button-default" } %>
+<%= link_to "削除", { action: :delete }, { class: "uk-button uk-button-danger" } %>
 
-<article id="sophon-basic">
+<section id="sophon-basic" class="uk-margin">
   <header><h2>基本情報</h2></header>
 
-  <div class="mb-3">
+  <div class="uk-margin">
     <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
-    <div class="form-control-plaintext border rounded">
-      <%= model.name %>
+    <div class="uk-form-controls">
+      <%= text_field_tag :name, model.name, class: "uk-input", disabled: true %>
     </div>
   </div>
 
   <% if model.memo.present? %>
-    <div class="mb-3">
+    <div class="uk-margin">
       <%= label_tag :memo, model_class.human_attribute_name(:memo), class: "form-label" %>
-      <div class="form-control-plaintext border rounded">
-        <%= sophon_br model.memo %>
+      <div class="uk-form-controls">
+        <%= text_area_tag :memo, model.name, class: "uk-textarea", disabled: true %>
       </div>
     </div>
   <% end %>
 
   <% if model.enabled_at || model.disabled_at %>
-    <div class="mb-3">
+    <div class="uk-margin">
       <%= label_tag :enabled_at, model_class.human_attribute_name(:enabled_at), class: "form-label" %>
-      <div class="form-control-plaintext border rounded">
+      <div class="uk-form-controls">
         <%=
-          [].tap do |array|
+          text = [].tap do |array|
             array << I18n.l(model.enabled_at.to_date) if model.enabled_at
             array << I18n.l(model.disabled_at.to_date) if model.disabled_at
           end.join(t("wave_dash"))
+
+          text_field_tag :enabled_at, text, class: "uk-input", disabled: true
         %>
       </div>
     </div>
   <% end %>
-</article>
+</section>
 
-<article id="sophon-basic">
+<section id="sophon-brand" class="uk-margin">
   <header><h2>ブランド</h2></header>
 
   <% if model.brand_logo.present? %>
-    <div class="mb-3">
+    <div class="uk-margin">
       <%= label_tag :brand_logo, model_class.human_attribute_name(:brand_logo), class: "form-label" %>
       <div class="form-control-plaintext border rounded">
         <% if model.brand_logo.representable? %>
@@ -51,20 +53,20 @@
     </div>
   <% end %>
 
-  <div class="mb-3">
+  <div class="uk-margin">
     <%= label_tag :brand_name, model_class.human_attribute_name(:brand_name), class: "form-label" %>
-    <div class="form-control-plaintext border rounded">
-      <%= model.brand_name %>
+    <div class="uk-form-controls">
+      <%= text_field_tag :brand_name, model.brand_name, class: "uk-input", disabled: true %>
     </div>
   </div>
-</article>
+</section>
 
-<article id="sophon-virtual-host">
+<section id="sophon-virtual-host" class="uk-margin">
   <header><h2>仮想ホスト</h2></header>
   <%= link_to "仮想ホストの管理", sys_tenant_virtual_hosts_path(tenant_id: model) %>
 
   <% if model.virtual_hosts.present? %>
-    <table>
+    <table class="uk-table uk-table-small uk-table-middle uk-table-divider uk-table-hover">
       <thead>
       <tr>
         <th><%= Sys::VirtualHost.human_attribute_name :host %></th>
@@ -81,8 +83,8 @@
       </tbody>
     </table>
   <% end %>
-</article>
+</section>
 
 <section>
-  <%= link_to "戻る", { action: :index }, { class: "btn btn-outline-secondary" } %>
+  <%= link_to "戻る", { action: :index }, { class: "uk-button uk-button-default" } %>
 </section>

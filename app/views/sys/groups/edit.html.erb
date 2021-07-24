@@ -10,27 +10,31 @@
       parents.pop
     %>
     <% if parents.present? %>
-      <div class="mb-3">
-        <%= label_tag :parent_id, model_class.human_attribute_name(:parent_id), class: "form-label" %>
-        <div class="form-control-plaintext border rounded">
-          <%= parents.pluck(:name).join("/") %>
+      <div class="uk-margin">
+        <%= label_tag :parent_id, model_class.human_attribute_name(:parent_id), class: "uk-form-label" %>
+        <div class="uk-form-controls">
+          <%= text_field_tag :parent_id, parents.pluck(:name).join("/"), class: "uk-input", disabled: true %>
         </div>
       </div>
     <% end %>
 
-    <div class="mb-3">
-      <%= form.label :gid, model_class.human_attribute_name(:gid), class: "form-label" %>
-      <%= form.text_field :gid, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :gid, model_class.human_attribute_name(:gid), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.text_field :gid, class: "uk-input" %>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
-      <%= form.text_field :name, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.text_field :name, class: "uk-input" %>
+      </div>
     </div>
   </article>
 
   <section>
-    <%= form.submit "作成", class: "btn btn-primary" %>
-    <%= link_to "キャンセル", { action: :index }, { class: "btn btn-outline-secondary" } %>
+    <%= form.submit "保存", class: "uk-button uk-button-primary" %>
+    <%= link_to "キャンセル", { action: :show }, { class: "uk-button uk-button-default" } %>
   </section>
 <% end %>

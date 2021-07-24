@@ -1,7 +1,7 @@
 <%= form_with model: model, scope: :model, url: url_for(action: :move), class: "model-form", data: { id: model.id } do |form| %>
   <%= render 'layouts/error_messages', model: model %>
 
-  <table class="table">
+  <table class="uk-table uk-table-small uk-table-middle uk-table-divider uk-table-hover">
     <thead>
     <tr>
       <th scope="col"><%= model_class.human_attribute_name :gid %></th>
@@ -13,13 +13,15 @@
     <% models.each do |parent| %>
       <tr>
         <td>
-          <% if child_group_ids.include?(parent.id) %>
-            <label><%= form.radio_button :parent_id, parent.id, disabled: true %> <%= parent.gid %></label>
-          <% elsif parent == model.parent %>
-            <label><%= form.radio_button :parent_id, parent.id, checked: true %> <%= parent.gid %></label>
-          <% else %>
-            <label><%= form.radio_button :parent_id, parent.id %> <%= parent.gid %></label>
-          <% end %>
+          <div class="uk-form-controls uk-form-controls-text">
+            <% if child_group_ids.include?(parent.id) %>
+              <label><%= form.radio_button :parent_id, parent.id, disabled: true %> <%= parent.gid %></label>
+            <% elsif parent == model.parent %>
+              <label><%= form.radio_button :parent_id, parent.id, checked: true %> <%= parent.gid %></label>
+            <% else %>
+              <label><%= form.radio_button :parent_id, parent.id %> <%= parent.gid %></label>
+            <% end %>
+          </div>
         </td>
         <td><%= parent.parents.to_a.sort_by { |group| group.depth }.map(&:name).join("/") %></td>
       </tr>
@@ -29,7 +31,7 @@
 
 
   <section>
-    <%= form.submit "移動", class: "btn btn-primary" %>
-    <%= link_to "キャンセル", { action: :index }, { class: "btn btn-outline-secondary" } %>
+    <%= form.submit "移動", class: "uk-button uk-button-primary" %>
+    <%= link_to "キャンセル", { action: :show }, { class: "uk-button uk-button-default" } %>
   </section>
 <% end %>

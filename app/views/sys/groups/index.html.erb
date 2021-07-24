@@ -1,17 +1,17 @@
-<%= link_to "新規作成", { action: :new }, { class: "btn btn-primary" } %>
+<%= link_to "新規作成", { action: :new }, { class: "uk-button uk-button-primary" } %>
 
-<table class="table">
+<table class="uk-table uk-table-small uk-table-middle uk-table-divider uk-table-hover">
   <thead>
   <tr>
-    <th scope="col"><%= model_class.human_attribute_name :gid %></th>
-    <th scope="col"><%= model_class.human_attribute_name :name %></th>
+    <th scope="col" class="uk-table-shrink"><%= model_class.human_attribute_name :gid %></th>
+    <th scope="col" class="uk-text-truncate"><%= model_class.human_attribute_name :name %></th>
   </tr>
   </thead>
   <tbody>
   <% models.each do |model| %>
     <tr>
-      <td><%= link_to model.gid, url_for(action: :show, id: model) %></td>
-      <td><%= model.parents.to_a.sort_by { |group| group.depth }.map(&:name).join("/") %></td>
+      <td class="uk-table-shrink"><%= link_to model.gid, url_for(action: :show, id: model) %></td>
+      <td class="uk-text-truncate"><%= model.parents.to_a.sort_by { |group| group.depth }.map(&:name).join("/") %></td>
     </tr>
   <% end %>
   </tbody>

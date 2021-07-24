@@ -1,60 +1,76 @@
 <%= form_with model: model, scope: :model, class: "model-form", data: { id: model.id } do |form| %>
   <%= render 'layouts/error_messages', model: model %>
 
-  <article id="sophon-basic">
+  <section id="sophon-basic" class="uk-margin">
     <header><h2>基本情報</h2></header>
-    <div class="mb-3">
-      <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
-      <%= form.text_field :name, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.text_field :name, class: "uk-input" %>
+      </div>
       <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :memo, model_class.human_attribute_name(:memo), class: "form-label" %>
-      <%= form.text_area :memo, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :memo, model_class.human_attribute_name(:memo), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.text_area :memo, class: "uk-textarea" %>
+      </div>
       <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :enabled_at, model_class.human_attribute_name(:enabled_at), class: "form-label" %>
-      <div class="input-group">
-        <%= form.date_field :enabled_at, class: "form-control" %>
-        <span class="input-group-text"><%= t("wave_dash") %></span>
-        <%= form.date_field :disabled_at, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :enabled_at, model_class.human_attribute_name(:enabled_at), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.date_field :enabled_at, class: "uk-input uk-form-width-medium" %>
+        <span><%= t("wave_dash") %></span>
+        <%= form.date_field :disabled_at, class: "uk-input uk-form-width-medium" %>
       </div>
     </div>
-  </article>
+  </section>
 
-  <article id="sophon-basic">
+  <section id="sophon-brand" class="uk-margin">
     <header><h2>ブランド</h2></header>
-    <div class="mb-3">
-      <%= form.label :brand_logo, model_class.human_attribute_name(:brand_logo), class: "form-label" %>
-      <%= form.file_field :brand_logo, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :brand_logo, model_class.human_attribute_name(:brand_logo), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <div uk-form-custom="target: true" class="uk-width-1-1">
+          <%= form.file_field :brand_logo, class: "" %>
+          <input class="uk-input uk-width-1-2" type="text" placeholder="選択されていません。" disabled>
+          <button class="uk-button uk-button-default" type="button">選択</button>
+        </div>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :brand_name, model_class.human_attribute_name(:brand_name), class: "form-label" %>
-      <%= form.text_field :brand_name, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :brand_name, model_class.human_attribute_name(:brand_name), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.text_field :brand_name, class: "uk-input" %>
+      </div>
     </div>
-  </article>
+  </section>
 
-  <article id="sophon-virtual-host">
+  <section id="sophon-virtual-host" class="uk-margin">
     <header><h2>仮想ホスト</h2></header>
 
     <%= form.fields_for :virtual_hosts do |virtual_host_form| %>
-      <div class="mb-3">
-        <%= virtual_host_form.label :host, Sys::VirtualHost.human_attribute_name(:host), class: "form-label" %>
-        <%= virtual_host_form.text_field :host, class: "form-control" %>
+      <div class="uk-margin">
+        <%= virtual_host_form.label :host, Sys::VirtualHost.human_attribute_name(:host), class: "uk-form-label" %>
+        <div class="uk-form-controls">
+          <%= virtual_host_form.text_field :host, class: "uk-input" %>
+        </div>
       </div>
-      <div class="mb-3">
-        <%= virtual_host_form.label :path, Sys::VirtualHost.human_attribute_name(:path), class: "form-label" %>
-        <%= virtual_host_form.text_field :path, class: "form-control" %>
+      <div class="uk-margin">
+        <%= virtual_host_form.label :path, Sys::VirtualHost.human_attribute_name(:path), class: "uk-form-label" %>
+        <div class="uk-form-controls">
+          <%= virtual_host_form.text_field :path, class: "uk-input" %>
+        </div>
       </div>
     <% end %>
-  </article>
+  </section>
 
-  <section>
-    <%= form.submit "作成", class: "btn btn-primary" %>
-    <%= link_to "キャンセル", { action: :index }, { class: "btn btn-outline-secondary" } %>
+  <section class="uk-margin">
+    <%= form.submit "作成", class: "uk-button uk-button-primary" %>
+    <%= link_to "キャンセル", { action: :index }, { class: "uk-button uk-button-default" } %>
   </section>
 <% end %>

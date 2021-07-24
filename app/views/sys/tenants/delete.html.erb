@@ -1,16 +1,18 @@
 <%= form_with model: model, method: :delete, scope: :model, class: "model-form", data: { id: model.id } do |form| %>
   <%= render 'layouts/error_messages', model: model %>
 
-  <article id="sophon-basic">
+  <article id="sophon-basic" class="uk-margin">
     <header><h2>基本情報</h2></header>
-    <div class="mb-3">
-      <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
-      <%= form.text_field :name, class: "form-control", readonly: true %>
+    <div class="uk-margin">
+      <%= form.label :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.text_field :name, class: "uk-input", disabled: true %>
+      </div>
     </div>
   </article>
 
-  <section>
-    <%= form.submit "削除", class: "btn btn-danger" %>
-    <%= link_to "キャンセル", { action: :show }, { class: "btn btn-outline-secondary" } %>
+  <section class="uk-margin">
+    <%= form.submit "削除", class: "uk-button uk-button-danger" %>
+    <%= link_to "キャンセル", { action: :show }, { class: "uk-button uk-button-default" } %>
   </section>
 <% end %>

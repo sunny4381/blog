@@ -3,19 +3,19 @@
 
   <article id="sophon-basic">
     <header><h2>基本情報</h2></header>
-    <div class="mb-3">
-      <%= form.label :uid, model_class.human_attribute_name(:uid), class: "form-label" %>
-      <%= form.text_field :uid, class: "form-control", readonly: true %>
+    <div class="uk-margin">
+      <%= form.label :uid, model_class.human_attribute_name(:uid), class: "uk-form-label" %>
+      <%= form.text_field :uid, class: "uk-input", disabled: true %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
-      <%= form.text_field :name, class: "form-control", readonly: true %>
+    <div class="uk-margin">
+      <%= form.label :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
+      <%= form.text_field :name, class: "uk-input", disabled: true %>
     </div>
   </article>
 
   <section>
-    <%= form.submit "削除", class: "btn btn-danger" %>
-    <%= link_to "キャンセル", { action: :show }, { class: "btn btn-outline-secondary" } %>
+    <%= form.submit "削除", class: "uk-button uk-button-danger" %>
+    <%= link_to "キャンセル", { action: :show }, { class: "uk-button uk-button-default" } %>
   </section>
 <% end %>

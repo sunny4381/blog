@@ -1,61 +1,63 @@
-<%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
-<%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
+<%= link_to "編集", { action: :edit }, { class: "uk-button uk-button-default" } %>
+<%= link_to "削除", { action: :delete }, { class: "uk-button uk-button-danger" } %>
 
-<section id="sophon-basic">
+<section id="sophon-basic" class="uk-margin">
   <header><h2>基本情報</h2></header>
 
-  <div class="mb-3">
-    <%= label_tag :uid, model_class.human_attribute_name(:uid), class: "form-label" %>
-    <div class="form-control-plaintext border rounded">
-      <%= model.uid %>
+  <div class="uk-margin">
+    <%= label_tag :uid, model_class.human_attribute_name(:uid), class: "uk-form-label" %>
+    <div class="uk-form-controls">
+      <%= text_field_tag :uid, model.uid, class: "uk-input", disabled: true %>
     </div>
   </div>
 
-  <div class="mb-3">
-    <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
-    <div class="form-control-plaintext border rounded">
-      <%= model.name %>
+  <div class="uk-margin">
+    <%= label_tag :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
+    <div class="uk-form-controls">
+      <%= text_field_tag :name, model.name, class: "uk-input", disabled: true %>
     </div>
   </div>
 
   <% if model.email.present? %>
-    <div class="mb-3">
-      <%= label_tag :email, model_class.human_attribute_name(:email), class: "form-label" %>
-      <div class="form-control-plaintext border rounded">
-        <%= model.email %>
+    <div class="uk-margin">
+      <%= label_tag :email, model_class.human_attribute_name(:email), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= text_field_tag :email, model.email, class: "uk-input", disabled: true %>
       </div>
     </div>
   <% end %>
 
   <% if model.title.present? %>
-    <div class="mb-3">
-      <%= label_tag :title, model_class.human_attribute_name(:title), class: "form-label" %>
-      <div class="form-control-plaintext border rounded">
-        <%= model.title %>
+    <div class="uk-margin">
+      <%= label_tag :title, model_class.human_attribute_name(:title), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= text_field_tag :title, model.title, class: "uk-input", disabled: true %>
       </div>
     </div>
   <% end %>
 
   <% if model.enabled_at || model.disabled_at %>
-    <div class="mb-3">
-      <%= label_tag :enabled_at, model_class.human_attribute_name(:enabled_at), class: "form-label" %>
+    <div class="uk-margin">
+      <%= label_tag :enabled_at, model_class.human_attribute_name(:enabled_at), class: "uk-form-label" %>
       <div class="form-control-plaintext border rounded">
         <%=
-          [].tap do |array|
+          text = [].tap do |array|
             array << I18n.l(model.enabled_at.to_date) if model.enabled_at
             array << I18n.l(model.disabled_at.to_date) if model.disabled_at
           end.join(t("wave_dash"))
+
+          text_field_tag :enabled_at, text, class: "uk-input", disabled: true
         %>
       </div>
     </div>
   <% end %>
 </section>
 
-<section id="sophon-basic">
+<section id="sophon-group" class="uk-margin">
   <header><h2>グループ</h2></header>
 
-  <div class="mb-3">
-    <table class="table">
+  <div class="uk-margin">
+    <table class="uk-table uk-table-small uk-table-middle uk-table-divider uk-table-hover">
       <thead>
       <tr>
         <th scope="col"><%= Sys::Group.human_attribute_name :gid %></th>
@@ -74,6 +76,6 @@
   </div>
 </section>
 
-<section>
-  <%= link_to "戻る", { action: :index }, { class: "btn btn-outline-secondary" } %>
+<section class="uk-margin">
+  <%= link_to "戻る", { action: :index }, { class: "uk-button uk-button-default" } %>
 </section>

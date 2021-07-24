@@ -1,6 +1,6 @@
-<%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
-<%= link_to "移動", { action: :move }, { class: "btn btn-outline-secondary" } %>
-<%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
+<%= link_to "編集", { action: :edit }, { class: "uk-button uk-button-default" } %>
+<%= link_to "移動", { action: :move }, { class: "uk-button uk-button-default" } %>
+<%= link_to "削除", { action: :delete }, { class: "uk-button uk-button-danger" } %>
 
 <article id="sophon-basic">
   <header><h2>基本情報</h2></header>
@@ -12,26 +12,30 @@
     parents.pop
   %>
   <% if parents.present? %>
-    <div class="mb-3">
-    <%= label_tag :parent_id, model_class.human_attribute_name(:parent_id), class: "form-label" %>
-      <div class="input-group">
-        <%= text_field_tag :parent_id, parents.pluck(:name).join("/"), class: "form-control", readonly: true %>
-        <%= link_to "変更", { action: :move }, class: "btn btn-outline-secondary" %>
+    <div class="uk-margin">
+    <%= label_tag :parent_id, model_class.human_attribute_name(:parent_id), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= text_field_tag :parent_id, parents.pluck(:name).join("/"), class: "uk-input uk-width-1-1 uk-width-1-2@s", readonly: true %>
+        <%= link_to "変更", { action: :move }, class: "uk-button uk-button-default" %>
       </div>
     </div>
   <% end %>
 
-  <div class="mb-3">
-    <%= label_tag :gid, model_class.human_attribute_name(:gid), class: "form-label" %>
-    <%= text_field_tag :gid, model.gid, class: "form-control", readonly: true %>
+  <div class="uk-margin">
+    <%= label_tag :gid, model_class.human_attribute_name(:gid), class: "uk-form-label" %>
+    <div class="uk-form-controls">
+      <%= text_field_tag :gid, model.gid, class: "uk-input", readonly: true %>
+    </div>
   </div>
 
-  <div class="mb-3">
-    <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
-    <%= text_field_tag :name, model.name, class: "form-control", readonly: true %>
+  <div class="uk-margin">
+    <%= label_tag :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
+    <div class="uk-form-controls">
+      <%= text_field_tag :name, model.name, class: "uk-input", readonly: true %>
+    </div>
   </div>
 </article>
 
-<section>
-  <%= link_to "戻る", { action: :index }, { class: "btn btn-outline-secondary" } %>
+<section class="uk-margin">
+  <%= link_to "戻る", { action: :index }, { class: "uk-button uk-button-default" } %>
 </section>

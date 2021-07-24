@@ -1,22 +1,22 @@
-<%= link_to "編集", { action: :edit }, { class: "btn btn-outline-secondary" } %>
-<%= link_to "削除", { action: :delete }, { class: "btn btn-outline-danger" } %>
+<%= link_to "編集", { action: :edit }, { class: "uk-button uk-button-default" } %>
+<%= link_to "削除", { action: :delete }, { class: "uk-button uk-button-danger" } %>
 
-<article id="sophon-basic">
+<section id="sophon-basic" class="uk-margin">
   <header><h2>基本情報</h2></header>
 
-  <div class="mb-3">
-    <%= label_tag :host, model_class.human_attribute_name(:host), class: "form-label" %>
-    <div class="form-control-plaintext border rounded">
-      <%= model.host %>
+  <div class="uk-margin">
+    <%= label_tag :host, model_class.human_attribute_name(:host), class: "uk-form-label" %>
+    <div class="uk-form-controls">
+      <%= text_field_tag :host, model.host, class: "uk-input", disabled: true %>
     </div>
   </div>
 
   <% if model.path.present? %>
-    <div class="mb-3">
-      <%= label_tag :path, model_class.human_attribute_name(:path), class: "form-label" %>
-      <div class="form-control-plaintext border rounded">
-        <%= sophon_br model.path %>
+    <div class="uk-margin">
+      <%= label_tag :path, model_class.human_attribute_name(:path), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= text_field_tag :path, model.path, class: "uk-input", disabled: true %>
       </div>
     </div>
   <% end %>
-</article>
+</section>

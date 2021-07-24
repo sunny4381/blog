@@ -3,42 +3,42 @@
 
   <section id="sophon-basic">
     <header><h2>基本情報</h2></header>
-    <div class="mb-3">
-      <%= form.label :uid, model_class.human_attribute_name(:uid), class: "form-label" %>
-      <%= form.text_field :uid, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :uid, model_class.human_attribute_name(:uid), class: "uk-form-label" %>
+      <%= form.text_field :uid, class: "uk-input" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :name, model_class.human_attribute_name(:name), class: "form-label" %>
-      <%= form.text_field :name, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
+      <%= form.text_field :name, class: "uk-input" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :password, model_class.human_attribute_name(:password), class: "form-label" %>
-      <%= form.password_field :password, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :password, model_class.human_attribute_name(:password), class: "uk-form-label" %>
+      <%= form.password_field :password, class: "uk-input" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :password_confirmation, model_class.human_attribute_name(:password_confirmation), class: "form-label" %>
-      <%= form.password_field :password_confirmation, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :password_confirmation, model_class.human_attribute_name(:password_confirmation), class: "uk-form-label" %>
+      <%= form.password_field :password_confirmation, class: "uk-input" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :email, model_class.human_attribute_name(:email), class: "form-label" %>
-      <%= form.email_field :email, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :email, model_class.human_attribute_name(:email), class: "uk-form-label" %>
+      <%= form.email_field :email, class: "uk-input" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :title, model_class.human_attribute_name(:title), class: "form-label" %>
-      <%= form.text_field :title, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :title, model_class.human_attribute_name(:title), class: "uk-form-label" %>
+      <%= form.text_field :title, class: "uk-input" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :enabled_at, model_class.human_attribute_name(:enabled_at), class: "form-label" %>
-      <div class="input-group">
-        <%= form.date_field :enabled_at, class: "form-control" %>
-        <span class="input-group-text"><%= t("wave_dash") %></span>
-        <%= form.date_field :disabled_at, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :enabled_at, model_class.human_attribute_name(:enabled_at), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.date_field :enabled_at, class: "uk-input uk-form-width-medium" %>
+        <span><%= t("wave_dash") %></span>
+        <%= form.date_field :disabled_at, class: "uk-input uk-form-width-medium" %>
       </div>
     </div>
   </section>
@@ -46,11 +46,10 @@
   <% if groups.present? %>
     <section id="sophon-group">
       <header><h2>グループ</h2></header>
-      <div class="mb-3">
-        <table class="table">
+      <div class="uk-margin">
+        <table class="uk-table uk-table-small uk-table-middle uk-table-divider uk-table-hover">
           <thead>
           <tr>
-            <th scope="col"></th>
             <th scope="col"><%= Sys::Group.human_attribute_name :gid %></th>
             <th scope="col"><%= Sys::Group.human_attribute_name :name %></th>
           </tr>
@@ -58,8 +57,12 @@
           <tbody>
           <% groups.each do |group| %>
             <tr>
-              <td><%= check_box_tag "#{form.object_name}[group_users_attributes][][group_id]", group.id, false, id: nil %></td>
-              <td><%= group.gid %></td>
+              <td>
+                <label>
+                  <%= check_box_tag "#{form.object_name}[group_users_attributes][][group_id]", group.id, false, id: nil %>
+                  <%= group.gid %>
+                </label>
+              </td>
               <td><%= group.parents.to_a.sort_by(&:depth).map(&:name).join("/") %></td>
             </tr>
           <% end %>
@@ -70,7 +73,7 @@
   <% end %>
 
   <section>
-    <%= form.submit "作成", class: "btn btn-primary" %>
-    <%= link_to "キャンセル", { action: :index }, { class: "btn btn-outline-secondary" } %>
+    <%= form.submit "作成", class: "uk-button uk-button-primary" %>
+    <%= link_to "キャンセル", { action: :index }, { class: "uk-button uk-button-default" } %>
   </section>
 <% end %>

@@ -1,21 +1,21 @@
 <%= form_with model: model, scope: :model, url: url_for(action: :update), class: "model-form", data: { id: model.id } do |form| %>
   <%= render 'layouts/error_messages', model: model %>
 
-  <article id="sophon-basic">
+  <section id="sophon-basic">
     <header><h2>基本情報</h2></header>
-    <div class="mb-3">
-      <%= form.label :host, model_class.human_attribute_name(:host), class: "form-label" %>
-      <%= form.text_field :host, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :host, model_class.human_attribute_name(:host), class: "uk-form-label" %>
+      <%= form.text_field :host, class: "uk-input" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :path, model_class.human_attribute_name(:path), class: "form-label" %>
-      <%= form.text_area :path, class: "form-control" %>
+    <div class="uk-margin">
+      <%= form.label :path, model_class.human_attribute_name(:path), class: "uk-form-label" %>
+      <%= form.text_field :path, class: "uk-input" %>
     </div>
-  </article>
+  </section>
 
-  <section>
-    <%= form.submit "保存", class: "btn btn-primary" %>
-    <%= link_to "キャンセル", { action: :show }, { class: "btn btn-outline-secondary" } %>
+  <section class="uk-margin">
+    <%= form.submit "保存", class: "uk-button uk-button-primary" %>
+    <%= link_to "キャンセル", { action: :show }, { class: "uk-button uk-button-default" } %>
   </section>
 <% end %>
