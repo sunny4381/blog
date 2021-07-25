@@ -1,9 +1,12 @@
 <% if model.errors.any? %>
-  <div class="alert alert-warning">
-    <ul>
+  <section class="uk-alert uk-alert-danger">
+    <header>
+      <p>次の点を確認してください。</p>
+    </header>
+    <ul class="uk-list uk-list-disc">
       <% model.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
     </ul>
-  </div>
+  </section>
 <% end %>
