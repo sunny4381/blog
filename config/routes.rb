@@ -1,15 +1,20 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  namespace :sys do
-    resources :tenants do
-      get :delete, on: :member
+  constraints(->(request) { request.env["sophon.tenant"].present? }) do
+    match 'login', to: 'login#login', via: %i[get post]
+    match 'logout', to: 'login#logout', via: %i[get post]
 
-      resources :virtual_hosts do
+    resource :dashboard, only: :show
+
+    namespace :sys do
+      resources :tenants do
         get :delete, on: :member
-      end
-    end
 
-    constraints(->(request) { request.env["sophon.tenant"].present? }) do
+        resources :virtual_hosts do
+          get :delete, on: :member
+        end
+      end
+
       resources :users do
         get :delete, on: :member
       end

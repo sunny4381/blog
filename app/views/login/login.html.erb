@@ -1,0 +1,23 @@
+<%= form_with model: model, scope: :model, url: url_for(action: :login), class: "login-form" do |form| %>
+  <%= render 'layouts/error_messages', model: model %>
+
+  <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
+    <section class="uk-margin">
+      <header><h3 class="uk-card-title">Login</h3></header>
+
+      <div class="uk-margin">
+        <%= form.label :uid, "UID", class: "uk-form-label" %>
+        <%= form.text_field :uid, class: "uk-input" %>
+      </div>
+
+      <div class="uk-margin">
+        <%= form.label :password, "Password", class: "uk-form-label" %>
+        <%= form.password_field :password, class: "uk-input" %>
+      </div>
+    </section>
+
+    <section class="uk-margin">
+      <%= form.submit "ログイン", class: "uk-button uk-button-primary" %>
+    </section>
+  </div>
+<% end %>
