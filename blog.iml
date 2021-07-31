@@ -61,10 +61,6 @@
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/actionmailbox-6.1.3.2/lib" />
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/actionmailbox-6.1.3.2/config" />
         </SOURCES>
-        <excluded>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/actionmailbox-6.1.3.2/db" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/actionmailbox-6.1.3.2/config" />
-        </excluded>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
@@ -111,9 +107,6 @@
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/actiontext-6.1.3.2/app" />
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/actiontext-6.1.3.2/lib" />
         </SOURCES>
-        <excluded>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/actiontext-6.1.3.2/db" />
-        </excluded>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
@@ -178,6 +171,20 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library name="activerecord-session_store (vbundled(2.0.0)) [path][gem]" type="rubylib">
+        <properties>
+          <option name="version" value="4" />
+        </properties>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/activerecord-session_store-2.0.0/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/activerecord-session_store-2.0.0/lib" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="activestorage (vbundled(6.1.3.2)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
@@ -195,10 +202,6 @@
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/activestorage-6.1.3.2/lib" />
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/activestorage-6.1.3.2/config" />
         </SOURCES>
-        <excluded>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/activestorage-6.1.3.2/db" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/activestorage-6.1.3.2/config" />
-        </excluded>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
@@ -711,6 +714,20 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library name="multi_json (vbundled(1.15.0)) [path][gem]" type="rubylib">
+        <properties>
+          <option name="version" value="4" />
+        </properties>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/multi_json-1.15.0/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/multi_json-1.15.0/lib" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="nio4r (vbundled(2.5.7)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
@@ -1191,7 +1208,6 @@
         <excluded>
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/rubocop-1.18.3/exe" />
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/rubocop-1.18.3/assets" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/rubocop-1.18.3/config" />
         </excluded>
       </library>
     </orderEntry>
@@ -1227,7 +1243,6 @@
         </SOURCES>
         <excluded>
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/rubocop-rails-2.11.3/bin" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/rubocop-rails-2.11.3/config" />
         </excluded>
       </library>
     </orderEntry>
@@ -1645,6 +1660,7 @@
     <option name="generators">
       <list>
         <option value="active_record:application_record" />
+        <option value="active_record:session_migration" />
         <option value="application_record" />
         <option value="assets" />
         <option value="benchmark" />
@@ -1675,6 +1691,7 @@
     <option name="myGenerators">
       <list>
         <option value="active_record:application_record" />
+        <option value="active_record:session_migration" />
         <option value="application_record" />
         <option value="assets" />
         <option value="benchmark" />
@@ -1831,6 +1848,14 @@
               <RakeTaskImpl id="seed">
                 <subtasks>
                   <RakeTaskImpl description="Truncates tables of each database for current environment and loads the seeds" fullCommand="db:seed:replant" id="replant" />
+                </subtasks>
+              </RakeTaskImpl>
+              <RakeTaskImpl id="sessions">
+                <subtasks>
+                  <RakeTaskImpl description="Clear the sessions table" fullCommand="db:sessions:clear" id="clear" />
+                  <RakeTaskImpl description="Creates a sessions migration for use with ActiveRecord::SessionStore" fullCommand="db:sessions:create" id="create" />
+                  <RakeTaskImpl description="Trim old sessions from the table (default: &gt; 30 days)" fullCommand="db:sessions:trim" id="trim" />
+                  <RakeTaskImpl description="Upgrade current sessions in the database to the secure version" fullCommand="db:sessions:upgrade" id="upgrade" />
                 </subtasks>
               </RakeTaskImpl>
               <RakeTaskImpl description="Creates the database, loads the schema, and initializes with the seed data (use db:reset to also drop the database first)" fullCommand="db:setup" id="setup" />
