@@ -1,9 +1,11 @@
 class Sys::VirtualHostsController < ApplicationController
+  before_action :authenticate_user!
+
   cattr_accessor :model_class
 
   self.model_class = Sys::VirtualHost
 
-  helper_method :model_class, :current_tenant, :models, :model
+  helper_method :model_class, :models, :model
 
   def index
   end
@@ -17,7 +19,7 @@ class Sys::VirtualHostsController < ApplicationController
 
   def create
     @model = model_class.new params.require(:model).permit(:host, :path)
-    @model.parent = current_tenant
+    @model.parent = parent_tenant
     if @model.save
       redirect_to url_for(action: :index), notice: "作成しました。"
     else
@@ -50,12 +52,12 @@ class Sys::VirtualHostsController < ApplicationController
 
   private
 
-  def current_tenant
-    @current_tenant ||= Sys::Tenant.find(params[:tenant_id])
+  def parent_tenant
+    @parent_tenant ||= Sys::Tenant.find(params[:tenant_id])
   end
 
   def models
-    @models ||= model_class.all.where(parent: current_tenant)
+    @models ||= model_class.all.where(parent: parent_tenant)
   end
 
   def model

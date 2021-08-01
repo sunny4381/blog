@@ -1,4 +1,6 @@
 class Sys::UsersController < ApplicationController
+  before_action :authenticate_user!
+
   cattr_accessor :model_class
 
   self.model_class = Sys::User
@@ -20,7 +22,7 @@ class Sys::UsersController < ApplicationController
       :uid, :name, :password, :password_confirmation, :email, :title, :enabled_at, :disabled_at,
       group_users_attributes: %i[group_id]
     )
-    @model.tenant = tenant
+    @model.tenant = current_tenant
 
     if @model.save
       redirect_to url_for(action: :show, id: @model), notice: "作成しました。"
@@ -68,18 +70,14 @@ class Sys::UsersController < ApplicationController
   private
 
   def models
-    @models ||= model_class.all.and_tenant(tenant).preload(:group_users, :groups)
+    @models ||= model_class.all.and_tenant(current_tenant).preload(:group_users, :groups)
   end
 
   def model
     @model ||= models.find(params[:id])
   end
 
-  def tenant
-    @tenant ||= request.env["sophon.tenant"]
-  end
-
   def groups
-    @groups ||= Sys::Group.all.and_tenant(tenant).preload(:parent_group_closures, :parents).order(gid: :asc, name: :asc)
+    @groups ||= Sys::Group.all.and_tenant(current_tenant).preload(:parent_group_closures, :parents).order(gid: :asc, name: :asc)
   end
 end

@@ -1,4 +1,6 @@
 class Sys::TenantsController < ApplicationController
+  before_action :authenticate_user!
+
   cattr_accessor :model_class
 
   self.model_class = Sys::Tenant

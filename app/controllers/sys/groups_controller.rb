@@ -1,9 +1,11 @@
 class Sys::GroupsController < ApplicationController
+  before_action :authenticate_user!
+
   cattr_accessor :model_class
 
   self.model_class = Sys::Group
 
-  helper_method :model_class, :models, :model, :tenant, :options_for_parent
+  helper_method :model_class, :models, :model, :options_for_parent
 
   def index
   end
@@ -17,7 +19,7 @@ class Sys::GroupsController < ApplicationController
 
   def create
     @model = model_class.new params.require(:model).permit(:gid, :name)
-    @model.tenant = tenant
+    @model.tenant = current_tenant
 
     parent_id = params.require(:model).permit(:parent_id)[:parent_id]
     @model.assign_parent(models.find(parent_id)) if parent_id.present?
@@ -76,7 +78,7 @@ class Sys::GroupsController < ApplicationController
 
   def models
     @models ||= begin
-      models = model_class.all.and_tenant(tenant)
+      models = model_class.all.and_tenant(current_tenant)
       models = models.preload(:parent_group_closures, :parents)
       models = models.order(gid: :asc, name: :asc)
       models
@@ -85,10 +87,6 @@ class Sys::GroupsController < ApplicationController
 
   def model
     @model ||= models.find(params[:id])
-  end
-
-  def tenant
-    @tenant ||= request.env["sophon.tenant"]
   end
 
   def options_for_parent

@@ -237,6 +237,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-session_store
+  addressable
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.4)
   byebug

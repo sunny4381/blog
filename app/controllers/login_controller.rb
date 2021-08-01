@@ -3,16 +3,17 @@ class LoginController < ApplicationController
 
   self.model_class = LoginParam
 
-  helper_method :model_class, :model, :tenant
+  helper_method :model_class, :model
 
   def login
     if request.get?
+      model.ref = params[:ref].to_s if params[:ref].present?
       render
       return
     end
 
-    model.attributes = params.require(:model).permit(:uid, :password)
-    model.tenant = tenant
+    model.attributes = params.require(:model).permit(:uid, :password, :ref)
+    model.tenant = current_tenant
     if model.invalid?
       render
       return
@@ -25,24 +26,19 @@ class LoginController < ApplicationController
       return
     end
 
-    # refer to IPA's 「安全なウェブサイトの作り方」
-    # we need new session id to protect from session hijacking
-    reset_session
+    destroy_user_session
+    create_user_session(user)
+    redirect_to model.redirect_to(dashboard_path)
+  end
 
-    session["sophon"] ||= {}
-    session["sophon"][tenant.id] ||= {}
-    session["sophon"][tenant.id]["principal"] = { "user_id" => user.id, "accessed_at" => Time.zone.now.to_i }
-
-    redirect_to dashboard_path
+  def logout
+    destroy_user_session
+    redirect_to login_path, notice: "ログアウトしました。"
   end
 
   private
 
   def model
     @model ||= model_class.new
-  end
-
-  def tenant
-    @tenant ||= request.env["sophon.tenant"]
   end
 end
