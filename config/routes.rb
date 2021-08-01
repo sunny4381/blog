@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   constraints(->(request) { request.env["sophon.tenant"].present? }) do
-    match 'login', to: 'login#login', via: %i[get post]
+    get 'login', to: 'login#new'
+    post 'login', to: 'login#create'
     match 'logout', to: 'login#logout', via: %i[get post]
 
     resource :dashboard, only: :show

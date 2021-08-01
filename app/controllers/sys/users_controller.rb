@@ -78,6 +78,10 @@ class Sys::UsersController < ApplicationController
   end
 
   def groups
-    @groups ||= Sys::Group.all.and_tenant(current_tenant).preload(:parent_group_closures, :parents).order(gid: :asc, name: :asc)
+    @groups ||= begin
+      groups = Sys::Group.all.and_tenant(current_tenant)
+      groups = groups.preload(:parent_group_closures, :parents).order(gid: :asc, name: :asc)
+      groups
+    end
   end
 end

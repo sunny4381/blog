@@ -5,24 +5,18 @@ class LoginController < ApplicationController
 
   helper_method :model_class, :model
 
-  def login
-    if request.get?
-      model.ref = params[:ref].to_s if params[:ref].present?
-      render
-      return
-    end
+  def new
+    model.ref = params[:ref].to_s if params[:ref].present?
+    render "login"
+  end
 
+  def create
     model.attributes = params.require(:model).permit(:uid, :password, :ref)
     model.tenant = current_tenant
-    if model.invalid?
-      render
-      return
-    end
 
-    user = model.find_user
+    user = model.validate_and_find_user
     if !user
-      model.errors.add :base, "パスワードが違います。"
-      render
+      render "login"
       return
     end
 

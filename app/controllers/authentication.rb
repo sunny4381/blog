@@ -33,20 +33,20 @@ module Authentication
 
   def user_session
     return if !user_signed_in?
+
     session.dig("sophon", current_tenant.id, current_user.id)
   end
 
   def create_user_session(user, now: nil)
-    now ||= Time.zone.now
-
     # refer to IPA's 「安全なウェブサイトの作り方」
     # we need new session id to protect from session hijacking
     reset_session
 
     session["sophon"] ||= {}
-    session["sophon"][current_tenant.id] ||= {}
-    session["sophon"][current_tenant.id]["principal"] = { "user_id" => user.id, "created_at" => now }
-    session["sophon"][current_tenant.id][user.id] = { "last_request_at" => now }
+    session["sophon"][current_tenant.id] = {
+      "principal" => { "user_id" => user.id, "created_at" => now },
+      user.id.to_s => { "last_request_at" => now }
+    }
   end
 
   def destroy_user_session
