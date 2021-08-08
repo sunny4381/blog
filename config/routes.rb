@@ -24,5 +24,7 @@ Rails.application.routes.draw do
         get :delete, on: :member
       end
     end
+
+    get "/" => "dashboards#show"
   end
 end
