@@ -17,7 +17,20 @@
   <div class="uk-container uk-container-expand">
     <nav class="uk-navbar" uk-navbar>
       <div class="uk-navbar-left">
-        <%= link_to "Sophon", "/", class: "uk-navbar-item uk-logo" %>
+        <%
+          if respond_to?(:current_tenant)
+            brand_name = current_tenant.brand_name.presence || current_tenant.name.presence || "Sophon"
+            if current_tenant.brand_logo.present?
+              source = url_for(current_tenant.brand_logo.representation(resize_to_limit: [ 240, 60 ]))
+              brand = link_to(image_tag(source, alt: brand_name), "/", class: "uk-navbar-item uk-logo", title: brand_name)
+            else
+              brand = link_to(brand_name, "/", class: "uk-navbar-item uk-logo")
+            end
+          else
+            brand = link_to("Sophon", "/", class: "uk-navbar-item uk-logo")
+          end
+        %>
+        <%= brand %>
       </div>
       <div class="uk-navbar-right">
         <div class="uk-navbar-item uk-visible@m">

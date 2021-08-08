@@ -45,7 +45,7 @@
       <%= label_tag :brand_logo, model_class.human_attribute_name(:brand_logo), class: "form-label" %>
       <div class="form-control-plaintext border rounded">
         <% if model.brand_logo.representable? %>
-          <%= image_tag(url_for(model.brand_logo.representation(resize_to_limit: [ 100, 100 ]))) %>
+          <%= image_tag(url_for(model.brand_logo.representation(resize_to_limit: [ 240, 60 ]))) %>
         <% else %>
           <%= link_to "Download", rails_blob_path(model.brand_logo, disposition: "attachment") %>
         <% end %>
