@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_31_055722) do
+ActiveRecord::Schema.define(version: 2021_08_08_013703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -52,6 +52,27 @@ ActiveRecord::Schema.define(version: 2021_07_31_055722) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
+  end
+
+  create_table "share_closures", id: false, force: :cascade do |t|
+    t.uuid "parent_id", null: false
+    t.uuid "child_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["child_id"], name: "index_share_closures_on_child_id"
+    t.index ["parent_id", "child_id"], name: "index_share_closures_on_parent_id_and_child_id", unique: true
+    t.index ["parent_id"], name: "index_share_closures_on_parent_id"
+  end
+
+  create_table "shares", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "tenant_id", null: false
+    t.string "type", null: false
+    t.string "name", null: false
+    t.integer "size"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tenant_id"], name: "index_shares_on_tenant_id"
   end
 
   create_table "sys_group_closures", id: false, force: :cascade do |t|

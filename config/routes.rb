@@ -7,6 +7,12 @@ Rails.application.routes.draw do
 
     resource :dashboard, only: :show
 
+    namespace :share do
+      resources :folders, only: %i[new create]
+      resources :files, only: %i[new create]
+    end
+    resources :shares, controller: "share/bases", except: %i[new create]
+
     namespace :sys do
       resources :tenants do
         get :delete, on: :member
