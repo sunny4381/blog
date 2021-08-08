@@ -36,6 +36,31 @@
   </div>
 </article>
 
+<article id="sophon-user">
+  <header><h2>ユーザー</h2></header>
+
+  <div class="uk-margin">
+    <table class="uk-table uk-table-small uk-table-middle uk-table-divider uk-table-hover">
+      <thead>
+      <tr>
+        <th scope="col"><%= Sys::User.human_attribute_name :uid %></th>
+        <th scope="col"><%= Sys::User.human_attribute_name :name %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% users = model.users.limit(5).to_a %>
+      <% users.each do |user| %>
+        <tr>
+          <td><%= user.uid %></td>
+          <td><%= user.name %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <p><%= t("human.m_out_of_n", n: model.users.count.to_s(:delimited), m: users.length) %></p>
+  </div>
+</article>
+
 <section class="uk-margin">
   <%= link_to "戻る", { action: :index }, { class: "uk-button uk-button-default" } %>
 </section>

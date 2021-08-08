@@ -1,5 +1,7 @@
 ja:
   wave_dash: "\uFF5E"
+  human:
+    m_out_of_n: "%{n} 件中 %{m} 件を表示しています。"
 
   activerecord:
     errors:
