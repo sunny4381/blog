@@ -965,25 +965,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="rack-proxy (vbundled(0.7.0)) [path][gem]" type="rubylib">
-        <properties>
-          <option name="version" value="4" />
-        </properties>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/rack-proxy-0.7.0/lib" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/rack-proxy-0.7.0/test" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/rack-proxy-0.7.0/lib" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/rack-proxy-0.7.0/test" />
-        </SOURCES>
-        <excluded>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/rack-proxy-0.7.0/test" />
-        </excluded>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="rack-test (vbundled(1.1.0)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
@@ -1374,17 +1355,22 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="semantic_range (vbundled(3.0.0)) [path][gem]" type="rubylib">
+      <library name="simpacker (vbundled(1.2.0)) [path][gem]" type="rubylib">
         <properties>
           <option name="version" value="4" />
         </properties>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/semantic_range-3.0.0/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/simpacker-1.2.0/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/simpacker-1.2.0/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/semantic_range-3.0.0/lib" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/simpacker-1.2.0/bin" />
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/simpacker-1.2.0/lib" />
         </SOURCES>
+        <excluded>
+          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/simpacker-1.2.0/bin" />
+        </excluded>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
@@ -1549,37 +1535,6 @@
         </SOURCES>
         <excluded>
           <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webdrivers-4.6.0/spec" />
-        </excluded>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="webpacker (vbundled(5.4.0)) [path][gem]" type="rubylib">
-        <properties>
-          <option name="version" value="4" />
-        </properties>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/lib" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/docs" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/test" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/.github" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/package" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/gemfiles" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/lib" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/docs" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/test" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/.github" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/package" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/gemfiles" />
-        </SOURCES>
-        <excluded>
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/docs" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/test" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/.github" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/package" />
-          <root url="file://$MODULE_DIR$/vendor/bundle/ruby/3.0.0/gems/webpacker-5.4.0/gemfiles" />
         </excluded>
       </library>
     </orderEntry>
@@ -1911,6 +1866,11 @@
           <RakeTaskImpl description="Prints out your Rack middleware stack" fullCommand="middleware" id="middleware" />
           <RakeTaskImpl description="Restart app by touching tmp/restart.txt" fullCommand="restart" id="restart" />
           <RakeTaskImpl description="Generate a cryptographically secure secret key (this is typically used to generate a secret for cookie sessions)" fullCommand="secret" id="secret" />
+          <RakeTaskImpl id="simpacker">
+            <subtasks>
+              <RakeTaskImpl description="Install Simpacker in this application" fullCommand="simpacker:install" id="install" />
+            </subtasks>
+          </RakeTaskImpl>
           <RakeTaskImpl description="Report code statistics (KLOCs, etc) from the application or engine" fullCommand="stats" id="stats" />
           <RakeTaskImpl description="Runs all tests in test folder except system ones" fullCommand="test" id="test" />
           <RakeTaskImpl id="test">
@@ -1970,36 +1930,6 @@
                   <RakeTaskImpl description="" fullCommand="tmp:sockets:clear" id="clear" />
                 </subtasks>
               </RakeTaskImpl>
-            </subtasks>
-          </RakeTaskImpl>
-          <RakeTaskImpl description="Lists all available tasks in Webpacker" fullCommand="webpacker" id="webpacker" />
-          <RakeTaskImpl id="webpacker">
-            <subtasks>
-              <RakeTaskImpl description="Installs Webpacker binstubs in this application" fullCommand="webpacker:binstubs" id="binstubs" />
-              <RakeTaskImpl description="Verifies that webpack &amp; webpack-dev-server are present" fullCommand="webpacker:check_binstubs" id="check_binstubs" />
-              <RakeTaskImpl description="Verifies if Node.js is installed" fullCommand="webpacker:check_node" id="check_node" />
-              <RakeTaskImpl description="Verifies if Yarn is installed" fullCommand="webpacker:check_yarn" id="check_yarn" />
-              <RakeTaskImpl description="Remove old compiled webpacks" fullCommand="webpacker:clean[keep,age]" id="clean[keep,age]" />
-              <RakeTaskImpl description="Remove the webpack compiled output directory" fullCommand="webpacker:clobber" id="clobber" />
-              <RakeTaskImpl description="Compile JavaScript packs using webpack for production with digests" fullCommand="webpacker:compile" id="compile" />
-              <RakeTaskImpl description="Provide information on Webpacker's environment" fullCommand="webpacker:info" id="info" />
-              <RakeTaskImpl description="Install Webpacker in this application" fullCommand="webpacker:install" id="install" />
-              <RakeTaskImpl id="install">
-                <subtasks>
-                  <RakeTaskImpl description="Install everything needed for Angular" fullCommand="webpacker:install:angular" id="angular" />
-                  <RakeTaskImpl description="Install everything needed for Coffee" fullCommand="webpacker:install:coffee" id="coffee" />
-                  <RakeTaskImpl description="Install everything needed for Elm" fullCommand="webpacker:install:elm" id="elm" />
-                  <RakeTaskImpl description="Install everything needed for Erb" fullCommand="webpacker:install:erb" id="erb" />
-                  <RakeTaskImpl description="Install everything needed for React" fullCommand="webpacker:install:react" id="react" />
-                  <RakeTaskImpl description="Install everything needed for Stimulus" fullCommand="webpacker:install:stimulus" id="stimulus" />
-                  <RakeTaskImpl description="Install everything needed for Svelte" fullCommand="webpacker:install:svelte" id="svelte" />
-                  <RakeTaskImpl description="Install everything needed for Typescript" fullCommand="webpacker:install:typescript" id="typescript" />
-                  <RakeTaskImpl description="Install everything needed for Vue" fullCommand="webpacker:install:vue" id="vue" />
-                </subtasks>
-              </RakeTaskImpl>
-              <RakeTaskImpl description="Verifies if Webpacker is installed" fullCommand="webpacker:verify_install" id="verify_install" />
-              <RakeTaskImpl description="Support for older Rails versions" fullCommand="webpacker:yarn_install" id="yarn_install" />
-              <RakeTaskImpl description="" fullCommand="webpacker:clean" id="clean" />
             </subtasks>
           </RakeTaskImpl>
           <RakeTaskImpl id="yarn">
