@@ -5,6 +5,8 @@ class Share::FoldersController < ApplicationController
 
   helper_method :model_class, :models, :model
 
+  layout "dialog"
+
   def new
     @model = model_class.new
     @model.tenant = current_tenant
