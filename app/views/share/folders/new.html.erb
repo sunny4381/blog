@@ -1,4 +1,4 @@
-<%= form_with scope: :model, url: share_folders_path, class: "model-form" do |form| %>
+<%= form_with scope: :model, url: share_folders_path, id: "new-folder-form", class: "model-form" do |form| %>
   <%= render 'layouts/error_messages', model: model %>
 
   <section id="sophon-basic">
@@ -10,9 +10,11 @@
     </div>
 
   </section>
+<% end %>
 
+<% content_for :footer do %>
   <section class="uk-text-right">
     <%= button_tag "閉じる", type: "button", class: "uk-button uk-button-default uk-modal-close" %>
-    <%= form.submit "作成", class: "uk-button uk-button-primary" %>
+    <%= submit_tag "作成", form: "new-folder-form", class: "uk-button uk-button-primary" %>
   </section>
 <% end %>

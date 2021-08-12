@@ -1,8 +1,8 @@
 <div class="uk-inline">
   <button class="uk-button uk-button-primary" type="button">新規作成 <span uk-icon="chevron-down"></span></button>
-  <div id="sophon-dropdown-new-menu" uk-dropdown="mode: click">
+  <div id="sophon-dropdown-new" uk-dropdown="mode: click">
     <ul class="uk-nav uk-dropdown-nav">
-      <li><%= link_to "新規フォルダー", new_share_folder_path, class: "sophon-new-folder", "data-controller" => "dialog", "data-action" => "dialog#open" %></li>
+      <li><%= link_to "新規フォルダー", new_share_folder_path, class: "sophon-dropdown-new-new-folder", "data-controller" => "dialog", "data-action" => "dialog#open" %></li>
       <li>
         <div class="sophon-upload" uk-form-custom>
           <input type="file" multiple>
@@ -12,28 +12,6 @@
     </ul>
   </div>
 </div>
-
-<% if false %>
-  <div id="sophon-modal-new-folder" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-      <button class="uk-modal-close-default" type="button" uk-close></button>
-
-      <%= form_with scope: :model, url: share_folders_path, class: "model-form" do |form| %>
-        <h2 class="uk-modal-title">新規フォルダー</h2>
-
-        <div class="uk-margin">
-          <%= form.label :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
-          <%= form.text_field :name, class: "uk-input" %>
-        </div>
-
-        <p class="uk-text-right">
-          <button class="uk-button uk-button-default uk-modal-close" type="button">閉じる</button>
-          <button class="uk-button uk-button-primary" type="submit">作成</button>
-        </p>
-      <% end %>
-    </div>
-  </div>
-<% end %>
 
 <table class="uk-table uk-table-small uk-table-middle uk-table-divider uk-table-hover">
   <thead>
@@ -135,20 +113,5 @@
         alert('Upload Completed');
       }
     });
-
-    var newMenu = document.getElementById("sophon-dropdown-new-menu");
-    // var newFolder = document.getElementById("sophon-modal-new-folder");
-    // newFolder.addEventListener("beforeshow", function() {
-    //   UIkit.dropdown(newMenu).hide();
-    // });
-
-    // document.querySelectorAll(".sophon-modal").forEach(function() {
-    //   this.addEventListener("click", function(ev) {
-    //     UIkit.dropdown(newMenu).hide();
-    //
-    //     ev.preventDefault();
-    //     return false;
-    //   });
-    // });
   });
 </script>

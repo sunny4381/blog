@@ -1,6 +1,21 @@
-<div id="sophon-modal-new-folder">
-  <div class="uk-modal-dialog uk-modal-body">
-    <button class="uk-modal-close-default" type="button" uk-close></button>
-    <%= yield %>
+<% body = yield %>
+
+<div class="sophon-modal">
+  <button class="uk-modal-close-default" type="button" uk-close></button>
+
+  <% if content_for?(:header) %>
+    <div class="uk-modal-header">
+      <%= yield :header %>
+    </div>
+  <% end %>
+
+  <div class="uk-modal-body">
+    <%= body %>
   </div>
+
+  <% if content_for?(:footer) %>
+    <div class="uk-modal-footer">
+      <%= yield :footer %>
+    </div>
+  <% end %>
 </div>
