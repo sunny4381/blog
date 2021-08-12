@@ -16,7 +16,7 @@ class Share::FoldersController < ApplicationController
     @model = model_class.new(params.require(:model).permit(:name))
     @model.tenant = current_tenant
     if @model.invalid?
-      render file: "new"
+      render action: "new", status: :unprocessable_entity
       return
     end
 
