@@ -1,0 +1,37 @@
+<%# link_to "編集", { action: :edit }, { class: "uk-button uk-button-default" } %>
+<%= link_to "ダウンロード", { action: :download }, { class: "uk-button uk-button-default" } %>
+<%= link_to "移動", { action: :move }, { class: "uk-button uk-button-default" } %>
+<%= button_tag "削除", type: "button", class: "uk-button uk-button-danger", "uk-toggle" => "target: #sophon-dialog-delete" %>
+
+<div id="sophon-dialog-delete" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h3 class="uk-modal-title">削除してよろしいですか？</h3>
+    <turbo-frame id="sophon-dialog-delete-frame">
+      <%= form_with model: model, method: :delete, url: url_for(action: :destroy), scope: :model, class: "model-form", data: { id: model.id } do |form| %>
+        <%= render 'layouts/error_messages', model: model %>
+
+        <section class="uk-text-right">
+          <button class="uk-modal-close uk-button uk-button-default" type="button">閉じる</button>
+          <%= form.submit "削除", class: "uk-button uk-button-danger" %>
+        </section>
+      <% end %>
+    </turbo-frame>
+  </div>
+</div>
+
+<% if model.file.present? %>
+  <section id="sophon-basic">
+    <div class="uk-margin uk-margin-top">
+      <% if model.image? %>
+        <%= image_tag rails_blob_path(model.file, disposition: "inline"), alt: model.name, class: "uk-width-expand" %>
+      <% elsif model.inline? %>
+        <embed type="<%= model.file.content_type %>" src="<%= rails_blob_path(model.file, disposition: "inline") %>" title="<%= model.name %>" class="uk-width-expand" uk-height-viewport="expand: true">
+      <% else %>
+        <%= label_tag :name, model_class.human_attribute_name(:name), class: "form-label" %>
+        <div class="uk-form-controls">
+          <%= text_field_tag :name, model.name, class: "uk-input", disabled: true %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+<% end %>

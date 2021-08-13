@@ -5,6 +5,14 @@ class Share::BasesController < ApplicationController
 
   helper_method :model_class, :models, :model
 
+  def destroy
+    if model.destroy
+      redirect_to url_for(action: :index), notice: "削除しました。", status: :see_other
+    else
+      render action: :show, status: :bad_request
+    end
+  end
+
   private
 
   def models

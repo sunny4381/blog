@@ -11,7 +11,10 @@ Rails.application.routes.draw do
       resources :folders, only: %i[new create]
       resources :files, only: %i[new create]
     end
-    resources :shares, controller: "share/bases", except: %i[new create]
+    resources :shares, controller: "share/bases", except: %i[new create] do
+      get :download, on: :member
+      match :move, on: :member, via: %i[get post]
+    end
 
     namespace :sys do
       resources :tenants do

@@ -3,12 +3,7 @@
   <div id="sophon-dropdown-new" uk-dropdown="mode: click">
     <ul class="uk-nav uk-dropdown-nav">
       <li><%= link_to "新規フォルダー", new_share_folder_path, class: "sophon-dropdown-new-new-folder", "data-controller" => "dialog", "data-action" => "dialog#open" %></li>
-      <li>
-        <div class="sophon-upload" uk-form-custom>
-          <input type="file" multiple>
-          <%= link_to "アップロード", "" %>
-        </div>
-      </li>
+      <li><%= link_to "アップロード", "", class: "sophon-dropdown-new-new-file" %></li>
     </ul>
   </div>
 </div>
@@ -57,9 +52,9 @@
 
 <script defer>
   document.addEventListener("DOMContentLoaded", function () {
-    var bar = document.getElementById('sophon-upload-progressbar');
+    const bar = document.getElementById('sophon-upload-progressbar');
 
-    UIkit.upload('.sophon-upload', {
+    const upload = UIkit.upload('.sophon-upload', {
       url: '<%= share_files_path %>',
       multiple: true,
       name: "model[files][]",
@@ -112,6 +107,16 @@
 
         alert('Upload Completed');
       }
+    });
+
+    document.querySelector(".sophon-dropdown-new-new-file").addEventListener("click", function(ev) {
+      upload.$el.querySelector("[type='file']").click();
+      const dropDown = ev.target.closest("[uk-dropdown]")
+      if (dropDown) {
+        UIkit.dropdown(dropDown).hide(false);
+      }
+      ev.preventDefault();
+      return false;
     });
   });
 </script>
