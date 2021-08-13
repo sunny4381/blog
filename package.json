@@ -2,7 +2,6 @@
   "name": "blog",
   "private": true,
   "dependencies": {
-    "@hotwired/turbo-rails": "^7.0.0-rc.1",
     "@rails/actioncable": "^6.1.4",
     "@rails/activestorage": "^6.1.4",
     "stimulus": "^2.0.0"
