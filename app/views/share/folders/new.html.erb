@@ -2,19 +2,17 @@
   <h2 class="uk-modal-title">新規フォルダー</h2>
 <% end %>
 
-<turbo-frame id="new-folder-form-frame">
-  <%= form_with scope: :model, url: share_folders_path, id: "new-folder-form", class: "model-form" do |form| %>
-    <%= render 'layouts/error_messages', model: model %>
+<%= form_with scope: :model, url: share_folders_path, id: "new-folder-form", class: "model-form", data: { controller: "ajax-form" } do |form| %>
+  <%= render 'layouts/error_messages', model: model %>
 
-    <section id="sophon-basic">
-      <div class="uk-margin">
-        <%= form.label :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
-        <%= form.text_field :name, class: "uk-input" %>
-      </div>
+  <section id="sophon-basic">
+    <div class="uk-margin">
+      <%= form.label :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
+      <%= form.text_field :name, class: "uk-input" %>
+    </div>
 
-    </section>
-  <% end %>
-</turbo-frame>
+  </section>
+<% end %>
 
 <% content_for :footer do %>
   <section class="uk-text-right">

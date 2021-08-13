@@ -1,6 +1,10 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
+  disconnect() {
+    this.dialog = null
+  }
+
   open(ev) {
     const href = ev.target.href
     if (! href) {
@@ -12,17 +16,12 @@ export default class extends Controller {
       .then(html => this.openDialog(html))
       .catch(err => this.showError(err))
 
-    const dropDown = ev.target.closest("[uk-dropdown]")
-    if (dropDown) {
-      UIkit.dropdown(dropDown).hide(false);
-    }
-
     ev.preventDefault()
     return false
   }
 
   openDialog(html) {
-    UIkit.modal.dialog(html)
+    this.dialog = UIkit.modal.dialog(html)
   }
 
   showError(err) {

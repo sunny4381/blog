@@ -2,8 +2,8 @@
   <button class="uk-button uk-button-primary" type="button">新規作成 <span uk-icon="chevron-down"></span></button>
   <div id="sophon-dropdown-new" uk-dropdown="mode: click">
     <ul class="uk-nav uk-dropdown-nav">
-      <li><%= link_to "新規フォルダー", new_share_folder_path, class: "sophon-dropdown-new-new-folder", "data-controller" => "dialog", "data-action" => "dialog#open" %></li>
-      <li><%= link_to "アップロード", "", class: "sophon-dropdown-new-new-file" %></li>
+      <li><%= link_to "新規フォルダー", new_share_folder_path, class: "sophon-dropdown-item sophon-dropdown-new-new-folder", "data-controller" => "dialog", "data-action" => "dialog#open" %></li>
+      <li><%= link_to "アップロード", "", class: "sophon-dropdown-item sophon-dropdown-new-new-file" %></li>
     </ul>
   </div>
 </div>
@@ -109,12 +109,17 @@
       }
     });
 
+    document.getElementById("sophon-dropdown-new").addEventListener("click", function(ev) {
+      if (ev.target.matches(".sophon-dropdown-item")) {
+        const dropDown = ev.target.closest("[uk-dropdown]")
+        if (dropDown) {
+          UIkit.dropdown(dropDown).hide(false);
+        }
+      }
+    })
+
     document.querySelector(".sophon-dropdown-new-new-file").addEventListener("click", function(ev) {
       upload.$el.querySelector("[type='file']").click();
-      const dropDown = ev.target.closest("[uk-dropdown]")
-      if (dropDown) {
-        UIkit.dropdown(dropDown).hide(false);
-      }
       ev.preventDefault();
       return false;
     });
