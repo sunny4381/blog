@@ -1,7 +1,16 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
+  connect() {
+    this.clickHandler = (ev) => this.open(ev)
+    this.element.addEventListener("click", this.clickHandler)
+  }
+
   disconnect() {
+    if (this.clickHandler) {
+      this.element.removeEventListener("click", this.clickHandler)
+    }
+    this.clickHandler = null
     this.dialog = null
   }
 

@@ -1,22 +1,45 @@
 class Share::BasesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_breadcrumbs
+
   cattr_accessor :model_class
 
   self.model_class = Share::Base
 
-  helper_method :model_class, :models, :model
-
-  def destroy
-    if model.destroy
-      redirect_to url_for(action: :index), notice: "削除しました。", status: :see_other
-    else
-      render action: :show, status: :bad_request
-    end
-  end
+  helper_method :model_class, :parent, :models, :model
 
   private
 
+  def set_breadcrumbs
+    breadcrumb "Share", share_path
+
+    if parent.present?
+      parents = parent.parents.to_a.sort_by { |parent| parent.depth }
+      parents.each_with_index do |parent, index|
+        breadcrumb(parent.name, share_parent_path(parent_id: parent))
+      end
+    end
+  end
+
+  def base_criteria
+    model_class.all.and_tenant(current_tenant).without_deleted
+  end
+
+  def parent
+    return @parent if @parent_retrieved
+
+    @parent_retrieved = true
+    @parent = base_criteria.where(id: params[:parent_id]).first
+  end
+
   def models
-    @models ||= model_class.all.and_tenant(current_tenant).without_deleted.order(name: :asc)
+    @models ||= begin
+      if parent.present?
+        parent.children.where(depth: parent.depth + 1).order(name: :asc)
+      else
+        base_criteria.where(depth: 1).order(name: :asc)
+      end
+    end
   end
 
   def model

@@ -2,7 +2,7 @@ class Share::CreateFolderParam
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attr_accessor :tenant
+  attr_accessor :tenant, :parent
 
   attribute :name, :string
 
@@ -10,6 +10,8 @@ class Share::CreateFolderParam
   validates :name, presence: true, length: { maximum: 80 }
 
   def create_folder!
-    Share::Folder.create!(tenant: tenant, name: name)
+    item = Share::Folder.new(tenant: tenant, name: name)
+    item.assign_parent(parent)
+    item.save!
   end
 end

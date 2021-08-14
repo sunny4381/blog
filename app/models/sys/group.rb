@@ -43,7 +43,7 @@ class Sys::Group < ApplicationRecord
     array[-2]
   end
 
-  # if you want to clear parents, just call `ssign_parent(nil)`
+  # if you want to clear parents, just call `assign_parent(nil)`
   def assign_parent(parent_group)
     parent_group_closures.destroy_all
 

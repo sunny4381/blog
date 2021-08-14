@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2021_08_08_013703) do
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
-  create_table "share_closures", id: false, force: :cascade do |t|
+  create_table "share_closures", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "parent_id", null: false
     t.uuid "child_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2021_08_08_013703) do
     t.string "type", null: false
     t.string "name", null: false
     t.integer "size"
+    t.integer "depth", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

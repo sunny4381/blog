@@ -1,22 +1,21 @@
 <% content_for :header do %>
-  <h2 class="uk-modal-title">新規フォルダー</h2>
+  <h2 class="uk-modal-title">削除してよろしいですか？</h2>
 <% end %>
 
-<%= form_with scope: :model, url: url_for(action: :create), id: "new-folder-form", class: "model-form", data: { controller: "ajax-form" } do |form| %>
+<%= form_with model: model, method: :delete, url: url_for(action: :destroy), scope: :model, id: "delete-file-form", class: "model-form", data: { id: model.id, controller: "ajax-form" } do |form| %>
   <%= render 'layouts/error_messages', model: model %>
 
   <section id="sophon-basic">
     <div class="uk-margin">
       <%= form.label :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
-      <%= form.text_field :name, class: "uk-input" %>
+      <%= form.text_field :name, class: "uk-input", readonly: true %>
     </div>
-
   </section>
 <% end %>
 
 <% content_for :footer do %>
   <section class="uk-text-right">
     <%= button_tag "閉じる", type: "button", class: "uk-button uk-button-default uk-modal-close" %>
-    <%= submit_tag "作成", form: "new-folder-form", class: "uk-button uk-button-primary" %>
+    <%= submit_tag "削除", form: "delete-file-form", class: "uk-button uk-button-danger" %>
   </section>
 <% end %>
