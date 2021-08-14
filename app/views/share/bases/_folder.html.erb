@@ -2,7 +2,7 @@
   <button class="uk-button uk-button-primary" type="button">新規作成 <span uk-icon="chevron-down"></span></button>
   <div id="sophon-dropdown-new" uk-dropdown="mode: click">
     <ul class="uk-nav uk-dropdown-nav">
-      <li><%= link_to "新規フォルダー", parent.present? ? new_share_parent_folder_path(parent_id: parent) : new_share_folder_path, class: "sophon-dropdown-item sophon-dropdown-new-new-folder", data: { controller: "dialog" } %></li>
+      <li><%= link_to "新規フォルダー", parent.present? ? new_share_parent_folder_path(parent_id: parent) : new_share_folder_path, class: "sophon-dropdown-item sophon-dropdown-new-new-folder", data: { controller: "open-dialog" } %></li>
       <li><%= link_to "アップロード", "", class: "sophon-dropdown-item sophon-dropdown-new-new-file" %></li>
     </ul>
   </div>
@@ -31,7 +31,7 @@
             <li><%= link_to "名前を変更", "#", class: "sophon-dropdown-item" %></li>
             <li><%= link_to "詳細を表示", "#", class: "sophon-dropdown-item" %></li>
             <li><%= link_to "ダウンロード", "#", class: "sophon-dropdown-item" %></li>
-            <li><%= link_to "削除", parent.present? ? delete_share_parent_folder_path(parent_id: parent, id: model) : delete_share_folder_path(id: model), class: "sophon-dropdown-item", data: { controller: "dialog" } %></li>
+            <li><%= link_to "削除", parent.present? ? delete_share_parent_folder_path(parent_id: parent, id: model) : delete_share_folder_path(id: model), class: "sophon-dropdown-item", data: { controller: "open-dialog" } %></li>
           </ul>
         </div>
       </td>
@@ -52,7 +52,7 @@
             <li><%= link_to "名前を変更", "#", class: "sophon-dropdown-item" %></li>
             <li><%= link_to "詳細を表示", "#", class: "sophon-dropdown-item" %></li>
             <li><%= link_to "ダウンロード", "#", class: "sophon-dropdown-item" %></li>
-            <li><%= link_to "削除", parent.present? ? delete_share_parent_file_path(parent_id: parent, id: model) : delete_share_file_path(id: model), class: "sophon-dropdown-item", data: { controller: "dialog" } %></li>
+            <li><%= link_to "削除", parent.present? ? delete_share_parent_file_path(parent_id: parent, id: model) : delete_share_file_path(id: model), class: "sophon-dropdown-item", data: { controller: "open-dialog" } %></li>
           </ul>
         </div>
       </td>
