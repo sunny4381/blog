@@ -21,7 +21,7 @@
           if respond_to?(:current_tenant)
             brand_name = current_tenant.brand_name.presence || current_tenant.name.presence || "Sophon"
             if current_tenant.brand_logo.present?
-              source = url_for(current_tenant.brand_logo.representation(resize_to_limit: [ 240, 60 ]))
+              source = url_for(current_tenant.brand_logo.representation(resize_to_limit: [240, 60]))
               brand = link_to(image_tag(source, alt: brand_name), "/", class: "uk-navbar-item uk-logo", title: brand_name)
             else
               brand = link_to(brand_name, "/", class: "uk-navbar-item uk-logo")
@@ -66,6 +66,18 @@
   <div class="uk-width-expand">
     <div class="uk-section uk-section-default uk-section-xsmall">
       <div class="uk-container">
+        <% if controller.breadcrumbs.present? %>
+          <ul class="uk-breadcrumb">
+            <% controller.breadcrumbs.each_with_index do |item, index| %>
+              <% if index + 1 == controller.breadcrumbs.length %>
+                <li><%= content_tag :span, item[0], item[2] %></li>
+              <% else %>
+                <li><%= link_to item[0], item[1], item[2] %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        <% end %>
+
         <main>
           <%= yield %>
         </main>
