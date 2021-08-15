@@ -1,5 +1,7 @@
 import { Controller } from "stimulus"
 
+declare var UIkit: any
+
 export default class extends Controller {
   initialize() {
     if (! this.element.id) {
@@ -7,22 +9,21 @@ export default class extends Controller {
     }
   }
 
+  submitHandler = (ev: Event) => this.submitForm(ev)
+
   connect() {
-    this.submitHandler = (ev) => this.submitForm(ev)
     this.element.addEventListener("submit", this.submitHandler)
   }
 
   disconnect() {
-    if (this.submitHandler) {
-      this.element.removeEventListener("submit", this.submitHandler)
-    }
-    this.submitHandler = null
+    this.element.removeEventListener("submit", this.submitHandler)
   }
 
-  submitForm(ev) {
-    const formData = new FormData(this.element)
+  submitForm(ev: Event) {
+    const form = this.element as HTMLFormElement
+    const formData = new FormData(form)
 
-    fetch(this.element.action, { method: this.element.method || "post", body: formData })
+    fetch(form.action, { method: form.method || "post", body: formData })
       .then(response => this.renderSubmitResult(response))
       .catch(error => this.renderSubmitError(error))
 
@@ -30,7 +31,7 @@ export default class extends Controller {
     return false;
   }
 
-  renderSubmitResult(response) {
+  renderSubmitResult(response: Response) {
     if (response.redirected) {
       location.href = response.url
       return
@@ -50,5 +51,9 @@ export default class extends Controller {
         this.element.innerHTML = html
       }
     })
+  }
+
+  renderSubmitError(error: Response) {
+    UIkit.modal.alert("Error")
   }
 }
