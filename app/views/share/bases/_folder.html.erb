@@ -8,98 +8,75 @@
   </div>
 </div>
 
-<table class="uk-table uk-table-small uk-table-middle uk-table-divider uk-table-hover">
-  <thead>
-  <tr>
-    <th scope="col"><%= model_class.human_attribute_name :name %></th>
-    <th scope="col"></th>
-    <th scope="col"><%= model_class.human_attribute_name :update_at %></th>
-    <th scope="col"><%= model_class.human_attribute_name :size %></th>
-  </tr>
-  </thead>
-  <tbody>
-  <% models.select { |model| model.type == "Share::Folder" }.each do |model| %>
+<div id="sophon-list-with-upload" class="uk-margin" data-controller="share--list-with-upload" data-share--list-with-upload-url-value="<%= parent.present? ? share_parent_files_path(parent_id: parent) : share_files_path %>">
+  <table class="uk-table uk-table-small uk-table-middle uk-table-divider uk-table-hover">
+    <thead>
     <tr>
-      <td>
-        <%= model.icon_source %>
-        <%= link_to model.name, share_parent_path(parent_id: model) %>
-      </td>
-      <td>
-        <button class="uk-button uk-button-link" type="button"><span uk-icon="icon: more-vertical"></span></button>
-        <div uk-dropdown="mode: click">
-          <ul class="uk-nav uk-dropdown-nav">
-            <li><%= link_to "名前を変更", "#", class: "sophon-dropdown-item" %></li>
-            <li><%= link_to "詳細を表示", "#", class: "sophon-dropdown-item" %></li>
-            <li><%= link_to "ダウンロード", "#", class: "sophon-dropdown-item" %></li>
-            <li><%= link_to "削除", parent.present? ? delete_share_parent_folder_path(parent_id: parent, id: model) : delete_share_folder_path(id: model), class: "sophon-dropdown-item", data: { controller: "open-dialog" } %></li>
-          </ul>
-        </div>
-      </td>
-      <td><%= model.updated_at.try { |time| I18n.l(time, format: :long) } %></td>
-      <td><%= model.size.try { |size| size.to_s(:human_size) } %></td>
+      <th scope="col"><%= model_class.human_attribute_name :name %></th>
+      <th scope="col"></th>
+      <th scope="col"><%= model_class.human_attribute_name :update_at %></th>
+      <th scope="col"><%= model_class.human_attribute_name :size %></th>
     </tr>
-  <% end %>
-  <% models.reject { |model| model.type == "Share::Folder" }.each do |model| %>
-    <tr>
-      <td>
-        <%= model.icon_source %>
-        <%= link_to model.name, share_parent_path(parent_id: model) %>
-      </td>
-      <td>
-        <button class="uk-button uk-button-link" type="button"><span uk-icon="icon: more-vertical"></span></button>
-        <div uk-dropdown="mode: click">
-          <ul class="uk-nav uk-dropdown-nav">
-            <li><%= link_to "名前を変更", "#", class: "sophon-dropdown-item" %></li>
-            <li><%= link_to "詳細を表示", "#", class: "sophon-dropdown-item" %></li>
-            <li><%= link_to "ダウンロード", "#", class: "sophon-dropdown-item" %></li>
-            <li><%= link_to "削除", parent.present? ? delete_share_parent_file_path(parent_id: parent, id: model) : delete_share_file_path(id: model), class: "sophon-dropdown-item", data: { controller: "open-dialog" } %></li>
-          </ul>
-        </div>
-      </td>
-      <td><%= model.updated_at.try { |time| I18n.l(time, format: :long) } %></td>
-      <td><%= model.size.try { |size| size.to_s(:human_size) } %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+    <% models.select { |model| model.type == "Share::Folder" }.each do |model| %>
+      <tr>
+        <td>
+          <%= model.icon_source %>
+          <%= link_to model.name, share_parent_path(parent_id: model) %>
+        </td>
+        <td>
+          <button class="uk-button uk-button-link" type="button"><span uk-icon="icon: more-vertical"></span></button>
+          <div uk-dropdown="mode: click">
+            <ul class="uk-nav uk-dropdown-nav">
+              <li><%= link_to "名前を変更", "#", class: "sophon-dropdown-item" %></li>
+              <li><%= link_to "詳細を表示", "#", class: "sophon-dropdown-item" %></li>
+              <li><%= link_to "ダウンロード", "#", class: "sophon-dropdown-item" %></li>
+              <li><%= link_to "削除", parent.present? ? delete_share_parent_folder_path(parent_id: parent, id: model) : delete_share_folder_path(id: model), class: "sophon-dropdown-item", data: { controller: "open-dialog" } %></li>
+            </ul>
+          </div>
+        </td>
+        <td><%= model.updated_at.try { |time| I18n.l(time, format: :long) } %></td>
+        <td><%= model.size.try { |size| size.to_s(:human_size) } %></td>
+      </tr>
+    <% end %>
+    <% models.reject { |model| model.type == "Share::Folder" }.each do |model| %>
+      <tr>
+        <td>
+          <%= model.icon_source %>
+          <%= link_to model.name, share_parent_path(parent_id: model) %>
+        </td>
+        <td>
+          <button class="uk-button uk-button-link" type="button"><span uk-icon="icon: more-vertical"></span></button>
+          <div uk-dropdown="mode: click">
+            <ul class="uk-nav uk-dropdown-nav">
+              <li><%= link_to "名前を変更", "#", class: "sophon-dropdown-item" %></li>
+              <li><%= link_to "詳細を表示", "#", class: "sophon-dropdown-item" %></li>
+              <li><%= link_to "ダウンロード", "#", class: "sophon-dropdown-item" %></li>
+              <li><%= link_to "削除", parent.present? ? delete_share_parent_file_path(parent_id: parent, id: model) : delete_share_file_path(id: model), class: "sophon-dropdown-item", data: { controller: "open-dialog" } %></li>
+            </ul>
+          </div>
+        </td>
+        <td><%= model.updated_at.try { |time| I18n.l(time, format: :long) } %></td>
+        <td><%= model.size.try { |size| size.to_s(:human_size) } %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 
-<div class="sophon-upload uk-placeholder uk-text-center">
-  <span uk-icon="icon: cloud-upload"></span>
-  <span class="uk-text-middle">アップロードするファイルをここにドロップするか</span>
-  <div uk-form-custom>
-    <input type="file" multiple>
-    <span class="uk-link">選択してください</span>
+  <div class="sophon-upload uk-placeholder uk-text-center">
+    <span uk-icon="icon: cloud-upload"></span>
+    <span class="uk-text-middle">アップロードするファイルをここにドロップするか</span>
+    <div uk-form-custom>
+      <input type="file" multiple>
+      <span class="uk-link">選択してください</span>
+    </div>
   </div>
+  <progress id="sophon-upload-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
 </div>
-<progress id="sophon-upload-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
 
 <script defer>
   document.addEventListener("DOMContentLoaded", function () {
-    const bar = document.getElementById('sophon-upload-progressbar');
-
-    const upload = UIkit.upload('.sophon-upload', {
-      url: '<%= parent.present? ? share_parent_files_path(parent_id: parent) : share_files_path %>',
-      multiple: true,
-      name: "model[files][]",
-      params: { authenticity_token: "<%= form_authenticity_token %>" },
-      loadStart: function (e) {
-        bar.removeAttribute('hidden');
-        bar.max = e.total;
-        bar.value = e.loaded;
-      },
-      progress: function (e) {
-        bar.max = e.total;
-        bar.value = e.loaded;
-      },
-      loadEnd: function (e) {
-        bar.max = e.total;
-        bar.value = e.loaded;
-      },
-      completeAll: function (xhr) {
-        location.href = xhr.responseURL;
-      }
-    });
-
     document.addEventListener("click", function(ev) {
       if (ev.target.matches(".sophon-dropdown-item")) {
         const dropDown = ev.target.closest("[uk-dropdown]")
@@ -110,7 +87,7 @@
     })
 
     document.querySelector(".sophon-dropdown-new-new-file").addEventListener("click", function(ev) {
-      upload.$el.querySelector("[type='file']").click();
+      document.querySelector("#sophon-list-with-upload [type='file']").click();
       ev.preventDefault();
       return false;
     });
