@@ -1,0 +1,44 @@
+<%= form_with model: model, scope: :model, url: url_for(action: :update), class: "model-form", data: { id: model.id } do |form| %>
+  <%= render 'layouts/error_messages', model: model %>
+
+  <article id="sophon-basic">
+    <header><h2>基本情報</h2></header>
+
+    <div class="uk-margin">
+      <%= label_tag :name, model_class.human_attribute_name(:name), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= form.text_field :name, class: "uk-input" %>
+      </div>
+    </div>
+  </article>
+
+  <article id="sophon-basic">
+    <header><h2>情報</h2></header>
+
+    <div class="uk-margin">
+      <%= label_tag :size, model_class.human_attribute_name(:size), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= text_field_tag :size, model.size, class: "uk-input", readonly: true %>
+      </div>
+    </div>
+
+    <div class="uk-margin">
+      <%= label_tag :created_at, model_class.human_attribute_name(:created_at), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= text_field_tag :created_at, I18n.l(model.created_at), class: "uk-input", readonly: true %>
+      </div>
+    </div>
+
+    <div class="uk-margin">
+      <%= label_tag :updated_at, model_class.human_attribute_name(:updated_at), class: "uk-form-label" %>
+      <div class="uk-form-controls">
+        <%= text_field_tag :updated_at, I18n.l(model.updated_at), class: "uk-input", readonly: true %>
+      </div>
+    </div>
+  </article>
+
+  <section class="uk-margin">
+    <%= form.submit "保存", class: "uk-button uk-button-primary" %>
+    <%= link_to "戻る", index_path, { class: "uk-button uk-button-default" } %>
+  </section>
+<% end %>

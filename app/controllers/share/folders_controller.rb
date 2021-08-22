@@ -23,6 +23,21 @@ class Share::FoldersController < ApplicationController
     redirect_to index_path, notice: "フォルダーを作成しました。"
   end
 
+  def edit
+    render layout: "application"
+  end
+
+  def update
+    model.attributes = params.require(:model).permit(:name)
+    result = model.save
+    if !result
+      render action: "edit", status: :unprocessable_entity
+      return
+    end
+
+    redirect_to index_path, notice: "フォルダーを作成しました。"
+  end
+
   def destroy
     if model.destroy
       redirect_to index_path, notice: "削除しました。"

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
     namespace :share do
       get "/" => "bases#index"
-      resources :folders, only: %i[new create destroy] do
+      resources :folders, except: %i[index show] do
         get :delete, on: :member
       end
       resources :files, only: %i[new create destroy] do
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
       scope ":parent_id", as: "parent" do
         get "/" => "bases#index"
-        resources :folders, only: %i[new create destroy] do
+        resources :folders, except: %i[index show] do
           get :delete, on: :member
         end
         resources :files, only: %i[new create destroy] do

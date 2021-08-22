@@ -7,7 +7,7 @@ module Share::CommonController
     before_action :authenticate_user!
     before_action :set_breadcrumbs
 
-    helper_method :model_class, :parent, :models, :model
+    helper_method :model_class, :parent, :models, :model, :index_path
   end
 
   private

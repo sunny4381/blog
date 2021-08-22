@@ -30,7 +30,7 @@
           <div uk-dropdown="mode: click">
             <ul class="uk-nav uk-dropdown-nav">
               <li><%= link_to "名前を変更", "#", class: "sophon-dropdown-item" %></li>
-              <li><%= link_to "詳細を表示", "#", class: "sophon-dropdown-item" %></li>
+              <li><%= link_to "詳細を表示", parent.present? ? edit_share_parent_folder_path(parent_id: parent, id: model) : edit_share_folder_path(id: model), class: "sophon-dropdown-item" %></li>
               <li><%= link_to "ダウンロード", "#", class: "sophon-dropdown-item" %></li>
               <li><%= link_to "削除", parent.present? ? delete_share_parent_folder_path(parent_id: parent, id: model) : delete_share_folder_path(id: model), class: "sophon-dropdown-item", data: { controller: "open-dialog" } %></li>
             </ul>
