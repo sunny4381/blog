@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 
-declare var UIkit: any
+declare const UIkit: any
 
 export default class extends Controller {
   static override values = { url: String }
@@ -27,14 +27,14 @@ export default class extends Controller {
       beforeAll: (uikitComponent: any, fileList: FileList) => {
         this.appendNewFiles(fileList)
       },
-      beforeSend: (environment: { data: FormData, method: string, headers: object, xhr: XMLHttpRequest, responseType: string }) => {
+      beforeSend: (environment: { data: FormData, method: string, headers: any, xhr: XMLHttpRequest, responseType: string }) => {
         this.initializeCurrentUpload(environment.data)
       },
       error: () => {
         this.showError()
         this.finalizeCurrentUpload()
       },
-      complete: (xhr: XMLHttpRequest) => {
+      complete: (_xhr: XMLHttpRequest) => {
         this.showCompletion()
         this.finalizeCurrentUpload()
       },
@@ -42,7 +42,7 @@ export default class extends Controller {
       loadStart: (ev: ProgressEvent) => { this.updateProgressBar(ev) },
       progress: (ev: ProgressEvent) => { this.updateProgressBar(ev) },
       loadEnd: (ev: ProgressEvent) => { this.updateProgressBar(ev) },
-      completeAll: (xhr: XMLHttpRequest) => {
+      completeAll: (_xhr: XMLHttpRequest) => {
         // location.href = xhr.responseURL;
         // alert('Upload Completed');
       }

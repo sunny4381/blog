@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 
-declare var UIkit: any
+declare const UIkit: any
 
 export default class extends Controller {
   override initialize() {
@@ -53,7 +53,7 @@ export default class extends Controller {
     })
   }
 
-  renderSubmitError(error: Response) {
+  renderSubmitError(_error: Response) {
     UIkit.modal.alert("Error")
   }
 }

@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 
-declare var UIkit: any
+declare const UIkit: any
 
 export default class extends Controller {
   private dialog: any
