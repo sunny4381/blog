@@ -3,7 +3,7 @@ import { Controller } from "stimulus"
 declare var UIkit: any
 
 export default class extends Controller {
-  static values = { url: String }
+  static override values = { url: String }
 
   urlValue?: string
   table: HTMLTableElement | null = null
@@ -12,7 +12,7 @@ export default class extends Controller {
   currentRow: HTMLTableRowElement | null = null
   currentProgressBar: HTMLProgressElement | null = null
 
-  connect() {
+  override connect() {
     if (! this.urlValue) {
       throw `data-${this.identifier}-url-value is not specified`
     }
@@ -49,7 +49,7 @@ export default class extends Controller {
     })
   }
 
-  disconnect() {
+  override disconnect() {
   }
 
   authenticityToken() {

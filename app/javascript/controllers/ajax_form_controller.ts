@@ -3,7 +3,7 @@ import { Controller } from "stimulus"
 declare var UIkit: any
 
 export default class extends Controller {
-  initialize() {
+  override initialize() {
     if (! this.element.id) {
       throw "id isn't assigned"
     }
@@ -11,11 +11,11 @@ export default class extends Controller {
 
   submitHandler = (ev: Event) => this.submitForm(ev)
 
-  connect() {
+  override connect() {
     this.element.addEventListener("submit", this.submitHandler)
   }
 
-  disconnect() {
+  override disconnect() {
     this.element.removeEventListener("submit", this.submitHandler)
   }
 

@@ -9,11 +9,11 @@ export default class extends Controller {
     this.open(ev)
   }
 
-  connect() {
+  override connect() {
     this.element.addEventListener("click", this.clickHandler)
   }
 
-  disconnect() {
+  override disconnect() {
     if (this.clickHandler) {
       this.element.removeEventListener("click", this.clickHandler)
     }
