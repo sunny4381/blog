@@ -4,6 +4,7 @@
   "dependencies": {
     "@rails/actioncable": "^6.1.4",
     "@rails/activestorage": "^6.1.4",
+    "core-js": "^3.16.3",
     "stimulus": "^2.0.0"
   },
   "version": "0.1.0",

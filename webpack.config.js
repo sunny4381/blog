@@ -10,7 +10,10 @@ module.exports = {
   mode: isProd ? "production" : "development",
   devtool: "source-map",
   entry: {
-    application: path.resolve(__dirname, "app/javascript/application.ts"),
+    application: [
+      "core-js",
+      path.resolve(__dirname, "app/javascript/application.ts"),
+    ]
   },
   module: {
     rules: [
