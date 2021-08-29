@@ -1,3 +1,5 @@
+"use strict";
+
 const path = require("path");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 
@@ -23,13 +25,14 @@ module.exports = {
     publicPath: "/packs/",
     filename: isProd ? "[name]-[hash].js" : "[name].js",
   },
-  resolve: {
-    extensions: [".ts", ".js"],
-  },
   plugins: [
     new WebpackAssetsManifest({
       publicPath: true,
       output: "manifest.json",
     }),
   ],
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
+  target: ["web", "es2021"],
 };
